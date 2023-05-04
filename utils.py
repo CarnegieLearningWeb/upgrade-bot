@@ -1,15 +1,38 @@
 import os
+import json
 import tiktoken
+
 
 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-SYSTEM_PROMPT = '''
-You are an AI assistant. 
-You will answer the question as truthfully as possible.
-If you're unsure of the answer, say Sorry, I don't know.
+def get_json_context(filename):
+    try:
+        with open(filename, "r") as file:
+            data = json.load(file)
+
+        minified_json_string = json.dumps(data, separators=(",", ":"))
+        return minified_json_string
+
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error: {e}")
+        return ""
+
+design_context = get_json_context("design.json")
+
+SYSTEM_PROMPT = f'''
+You are an AI assistant.
+Only answer questions related to UpGrade, based on the provided context.
+If you are certain that the question is not relevant to UpGrade, say "As an UpGradeBot, I can only answer questions about UpGrade."
+If you cannot find the exact information from the context, say "Sorry, I don't have that information."
+
+Context:
+UpGrade, backed by the Gates Foundation and Schmidt Futures, is a free, open-source A/B testing platform by Carnegie Learning and PlayPower Labs for educational software in schools. Built with Angular, it enables quick data-driven decisions, addressing educational software concerns like group random assignment and reduced teacher burden. The platform unites teachers, researchers, and edtech companies for improving learning outcomes and has been used in studies with MATHia and Battleship Numberline. Visit upgradeplatform.org, access docs at upgrade-platform.gitbook.io/docs/, and find the repository at github.com/CarnegieLearningWeb/UpGrade
+UI Design (Angle brackets represent non-UI element descriptions; curly braces denote formatted variables/placeholders; square brackets indicate input UI elements; labels starting with an asterisk are emphasized):
+{design_context}
 '''
+
 WAIT_MESSAGE = "Got your request. Please wait."
 N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 20
 MAX_TOKENS = 8192

@@ -1,0 +1,341 @@
+{
+  "Pages": {
+    "Login page": {
+      "UpGrade": "heading",
+      "Open Source A/B Testing Platform for Education Software": "label",
+      "Image": "image",
+      "Sign in with Google": "button, to Root page"
+    },
+    "Root page": {
+      "Left sidebar <fixed position, always shown while logged in>": {
+        "UpGrade": "logo",
+        "Experiments": "menu item, selected by default, to Experiments page",
+        "Segments": "menu item, to Segments page",
+        "Logs": "menu item, to Logs page",
+        "Profile": "menu item, to Profile page",
+        "Sign Out": "button, logs out, to Login page"
+      },
+      "Main content <varies on sidebar selection>": {
+        "Experiments page": {
+          "Experiments": "heading",
+          "Create and analyze experiments": "label",
+          "Import Experiment": "button, opens Import Experiment modal",
+          "Add Experiment": "button, opens Add Experiment modal",
+          "Experiments table": {
+            "Name | Status | Post Rule | Last Update | App Context | Tags | Enrollment": "headers",
+            "{experimentName} | {experimentStatus} | {postExperimentRule} | {dateUpdated} | {appContext} | {tags} | {N Students}": "data, clicking experiment name navigates to Experiment details page",
+            "Welcome! Let's start by creating a new experiment!": "message, shown if empty"
+          }
+        },
+        "Experiment details page": {
+          "Overview section": {
+            "{experimentName}": "heading",
+            "Created on {dateCreated} by {username} | Updated on {dateUpdated} by {username}": "label",
+            "Experiment Status <dropdown>": {
+              "Draft": "option, selected by default",
+              "Inactive": "option",
+              "Preview": "option",
+              "Scheduled": "option",
+              "Enrolling": "option",
+              "Enrollment Complete": "option",
+              "Archived": "option"
+            },
+            "Settings <button>": {
+              "Edit": "menu item, opens Edit Experiment modal",
+              "Export": "menu item, opens Export Experiment modal",
+              "Duplicate": "menu item, opens Duplicate Experiment modal",
+              "Delete": "menu item, opens Delete Experiment modal"
+            },
+            "Description: {description}": "label",
+            "App Context: {appContext}": "label",
+            "Experiment Type: {experimentType}": "label",
+            "Unit of Assignment: {unitOfAssignment}": "label",
+            "Tags: {tags}": "label"
+          },
+          "Decision Points section": {
+            "Decision Points": "heading",
+            "Define place(s) in the client app where the condition will be assigned. The same condition will be applied to all decision points": "label",
+            "Add Decision Point": "button, opens Add Decision Point modal",
+            "Settings <button>": {
+              "Import": "menu item, opens Import Decision Points modal",
+              "Export": "menu item, opens Export Decision Points modal",
+              "Delete All": "menu item, opens Delete All Decision Points modal"
+            },
+            "Decision points table": {
+              "Site | Target | Display Name | Actions": "headers",
+              "{site} | {target} | {displayName} | edit/delete buttons": "data, edit button opens Edit Decision Point modal, delete button opens Delete Decision Point modal",
+              "No decision points available. Experiments require at least one decision point": "message, shown if empty"
+            }
+          },
+          "Conditions section": {
+            "Conditions": "heading",
+            "Specify the conditions to be assigned to the decision points in the experiment": "label",
+            "Add Condition": "button, opens Add Condition modal",
+            "Settings <button>": {
+              "Import": "menu item, opens Import Conditions modal",
+              "Export": "menu item, opens Export Conditions modal",
+              "Delete All": "menu item, opens Delete All Conditions modal"
+            },
+            "Conditions table": {
+              "Name | Payload | Weight (%) | Actions": "headers, clicking Weight (%) opens Edit Condition Weights modal when more than one condition exists",
+              "{name} | {payload} | {weight} | edit/delete buttons": "data, edit button opens Edit Condition modal, delete button opens Delete Condition modal",
+              "No conditions available. Simple experiments require conditions": "message, shown if empty"
+            }
+          },
+          "Participant Rules section": {
+            "Participant Rules": "heading",
+            "Define rules to include or exclude participants in the experiment": "label",
+            "Add Participant Rule": "button, opens Add Participant Rule modal",
+            "Settings <button>": {
+              "Import": "menu item, opens Import Participant Rules modal",
+              "Export": "menu item, opens Export Participant Rules modal",
+              "Delete All": "menu item, opens Delete All Participant Rules modal"
+            },
+            "Participant Rules table": {
+              "Rule Type | Participants Name | Conditions | Actions": "headers",
+              "{ruleType} | {participantsName} | {N conditions} | edit/delete buttons": "data, edit button opens Edit Participant Rule modal, delete button opens Delete Participant Rule modal",
+              "No participant rules defined. No one will be enrolled in the experiment": "message, shown if empty"
+            }
+          },
+          "Metrics section": {
+            "Metrics": "heading",
+            "Define the metrics you want to monitor for this experiment": "label",
+            "Add Metric": "button, opens Add Metric modal",
+            "Settings <button>": {
+              "Import": "menu item, opens Import Metrics modal",
+              "Export": "menu item, opens Export Metrics modal",
+              "Delete All": "menu item, opens Delete All Metrics modal"
+            },
+            "Metrics table": {
+              "Metric Type | Metric ID | Statistic | Display Name | Actions": "headers",
+              "{metricType} | {metricId} | {statistic} | {displayName} | edit/delete buttons": "data, edit button opens Edit Metric modal, delete button opens Delete Metric modal",
+              "No metrics available. No metrics will be monitored in the experiment": "message, shown if empty"
+            }
+          }
+        },
+        "Segments page": {},
+        "Logs page": {},
+        "Profile page": {}
+      },
+      "Modals": "overlaying the page, detailed separately"
+    }
+  },
+  "Modals": {
+    "Import Experiment modal": {
+      "Import Experiment": "heading",
+      "Select the JSON to import experiment": "label",
+      "Choose Files": "button",
+      "Close": "button, closes modal",
+      "Import": "button, imports experiment(s), closes modal"
+    },
+    "Add Experiment modal": {
+      "Add Experiment": "heading",
+      "Name": "input field, required",
+      "Description": "input field, optional",
+      "App Context": "dropdown, options: retrieved from context metadata",
+      "The App Context indicates where the experiment will run, known to UpGrade": "label",
+      "Experiment Type <group label>": {
+        "Simple Experiment": "radio button, selected by default",
+        "Conditions are independent": "label",
+        "Factorial Experiment": "radio button",
+        "Conditions vary on two or more dimensions": "label"
+      },
+      "Unit of Assignment <group label>": {
+        "Individual": "radio button, selected by default",
+        "Condition will be assigned individually": "label",
+        "Group": "radio button",
+        "Condition will be assigned by group (e.g. school, class, teacher)": "label"
+      },
+      "<shown on Group selection>": {
+        "Group Type": "dropdown, options: retrieved from context metadata",
+        "Specify the Group Type for UpGrade to assign conditions on a group basis": "label",
+        "Consistency Rule <group label>": {
+          "Individual": "radio button, selected by default",
+          "Individual students have a consistent experience": "label",
+          "Group": "radio button",
+          "All students in a group have a common experience": "label"
+        }
+      },
+      "Tags": "input field, optional, separated with comma",
+      "Cancel": "button, closes modal",
+      "Create": "button, creates experiment, closes modal, to Experiment details page"
+    },
+    "Add Decision Point modal": {
+      "Add Decision Point": "heading",
+      "Site": "combo box, required, options: retrieved from context metadata",
+      "Description <for Site>": "input field, optional",
+      "The site indicates a place in the code (e.g. a function name) where the condition will be assigned": "label",
+      "Target": "combo box, required, options: retrieved from context metadata",
+      "Description <for Target>": "input field, optional",
+      "The target indicates the app component (e.g. a problem ID) that will undergo the experiment": "label",
+      "Display Name": "input field, required",
+      "Description <for Display Name>": "input field, optional",
+      "The display name is used to refer to this decision point in the experiment UI": "label",
+      "Cancel": "button, closes modal",
+      "Add": "button, adds row to Decision points table, closes modal"
+    },
+    "Add Condition modal": {
+      "Add Condition": "heading",
+      "Name": "combo box, required, options: retrieved from context metadata",
+      "Description": "input field, optional",
+      "This will be used to identify the variant in your code": "label",
+      "Payload <group label>": {
+        "No Payload": "radio button, selected by default",
+        "The payload will not be used": "label",
+        "Universal to all Decision Points": "radio button",
+        "The same payload will be used for all decision points": "label",
+        "Specific to Decision Point": "radio button",
+        "Different payloads will be used for decision points": "label"
+      },
+      "Payload is the optional data passed along with the condition": "label",
+      "<shown on Universal to all Decision Points selection>": {
+        "Type <dropdown>": {
+          "string": "option, selected by default",
+          "json": "option",
+          "csv": "option"
+        },
+        "Value": "input field"
+      },
+      "<shown on Specific to Decision Point selection>": {
+        "{decisionPointDisplayName} <heading label, iterated>": {
+          "Type <dropdown>": {
+            "string": "option, selected by default",
+            "json": "option",
+            "csv": "option"
+          },
+          "Value": "input field"
+        }
+      },
+      "Cancel": "button, closes modal",
+      "Add": "button, adds row to Conditions table, closes modal"
+    },
+    "Edit Condition Weights modal": {
+      "Edit Condition Weights": "heading",
+      "Weighting Method <group label>": {
+        "Weight Equally": "radio button, selected by default",
+        "Equally distribute weight percentage across all conditions": "label",
+        "Custom Percentages": "radio button",
+        "Define a custom percentage weight of each variant": "label"
+      },
+      "Condition Weights table": {
+        "Condition | Weight (%)": "headers",
+        "{condition} | {weight}": "data, weight becomes editable input field on Custom Percentages selection)"
+      },
+      "Cancel": "button, closes modal",
+      "Save": "button, updates weights in Conditions table, closes modal"
+    },
+    "Add Participant Rule modal": {
+      "Add Participant Rule": "heading",
+      "Rule Type <group label>": {
+        "Include Specific Participants": "radio button, selected by default",
+        "This rule is to include specific participants in the experiment": "label",
+        "<shown for the first participant rule>": {
+          "Include All Participants": "radio button",
+          "This rule is to include all participants in the experiment": "label"
+        },
+        "<shown from the second participant rule>": {
+          "Exclude Specific Participants": "radio button",
+          "This rule is to exclude specific participants from the experiment": "label"
+        }
+      },
+      "* Exclusion rules can be defined after at least one inclusion rule is added": "label, shown for first participant rule",
+      "* The rule to include all participants can only be defined as the first rule": "label, shown from second participant rule",
+      "<hidden on Include All Participants selection>": {
+        "Participants Name": "input field, required",
+        "Description": "input field, optional",
+        "The name of the participants to include in the experiment under this rule": "label",
+        "Conditions section": {
+          "Conditions": "heading",
+          "Define the conditions used for this rule": "label",
+          "Add Condition": "button, adds an edit mode row to Conditions table",
+          "Settings <menu>": {
+            "Import": "menu item, opens Import Conditions modal",
+            "Export": "menu item, opens Export Conditions modal",
+            "Delete All": "menu item, opens Delete All Conditions modal"
+          },
+          "Include the participant If the following conditions is met": "heading, shown with zero or one condition",
+          "Include the participant if [Logic] of the following conditions are met <heading, shown with two or more conditions>": {
+            "Logic <dropdown, required>": {
+              "Any": "option",
+              "All": "option"
+            }
+          },
+          "Conditions table": {
+            "Criteria | Operator | Value | Actions": "headers",
+            "{criteria} | {operator} | {value} | edit/delete buttons": "data, on view mode, edit button changes row to edit mode, delete button deletes row",
+            "[Criteria] | [Operator] | [Value] | confirm/cancel buttons <data, on edit mode, confirm button saves and changes row to view mode, cancal button cancels adding or editing row>": {
+              "Criteria <dropdown, required>": {
+                "User ID": "option",
+                "Group": "nested, options: retrieved from context metadata (e.g. Class ID, District ID, School ID, Teacher ID)",
+                "Segment": "option",
+                "Reached Decision Point": "option, available on Exclude Specific Participants selection"
+              },
+              "Operator <dropdown, required>": {
+                "equals": "option",
+                "does not equal": "option"
+              },
+              "Value": "input field, becomes combo box on Segment (options: defined segments) or Reached Decision Point (options: defined decision points) selection"
+            },
+            "No conditions defined. A participant rule requires at least one condition": "message, shown if empty"
+          },
+          "* Exclusion by Reached Decision Point applies across all decision points in the experiment": "label, shown on Reached Decision Point selection"
+        }
+      },
+      "Cancel": "button, closes modal",
+      "Add": "button, adds row to Participant Rules table, closes modal"
+    },
+    "Add Metric modal": {
+      "Add Metric": "heading",
+      "Metric Type <group label>": {
+        "Simple Metric": "radio button, selected by default",
+        "Used for globally accumulated measures (e.g. total time spent using the app)": "label",
+        "Repeatable Metric": "radio button",
+        "Used for repeatable measures in a specific component of the app (e.g. time spent for Activity 1)": "label"
+      },
+      "<shown on Repeatable Metric selection>": {
+        "Metric Class": "combo box, required, options: retrieved from metrics metadata",
+        "Metric Key": "combo box, required, options: retrieved from metrics metadata",
+        "The metric class (e.g. workspace) and key (e.g. workspace 3) indicate where the measurement takes place in the app": "label"
+      },
+      "Metric ID": "combo box, required, options: retrieved from metrics metadata",
+      "Statistic <dropdown, required, options depend on selected Metric ID's data type retrieved from metrics metadata": {
+        "<if data type is continuous>": {
+          "Sum": "option",
+          "Min": "option",
+          "Max": "option",
+          "Count": "option",
+          "Mean": "option",
+          "Mode": "option",
+          "Median": "option",
+          "Standard Deviation": "option"
+        },
+        "<if data type is categorical>": {
+          "Count": "option",
+          "Percentage": "option"
+        }
+      },
+      "The metric ID (e.g. timeSpent) identifies what data to measure, and the statistic controls how values are combined": "label",
+      "<shown if selected Metric ID's data type is categorical>": {
+        "Comparison <dropdown, required>": {
+          "Equal": "option",
+          "Not Equal": "option"
+        },
+        "Value": "dropdown, required, options: selected Metric ID's allowed values (only available on categorical data type) retrieved from metrics metadata",
+        "The categorical metric data type requires you to specify which allowed value to measure": "label"
+      },
+      "Repeated Measure Treatment <group label, shown on Repeatable Metric selection>": {
+        "Mean": "radio button, selected by default",
+        "The average of the repeated values on this metric will be used": "label",
+        "Earliest": "radio button",
+        "The value from the earliest time point in the repeated measures will be used": "label",
+        "Most Recent": "radio button",
+        "The value from the most recent time point in the repeated measures will be used": "label"
+      },
+      "Display Name": "input field, required",
+      "Description": "input field, optional",
+      "The display name is used to refer to this metric in the experiment UI": "label",
+      "Cancel": "button, closes modal",
+      "Add": "button, adds row to Metrics table, closes modal"
+    }
+  }
+}
