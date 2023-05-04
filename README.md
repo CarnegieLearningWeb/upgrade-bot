@@ -44,7 +44,7 @@ Before you can run the UpGradeBot, you need to configure the appropriate permiss
 1. Start the bot:
 
 ```
-python slack_gpt_bot.py
+python main.py
 ```
 2. Invite the bot to your desired Slack channel.
 3. Mention the bot in a message and ask a question (including any URLs). The bot will respond with an answer, taking into account any extracted content from URLs.
