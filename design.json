@@ -29,95 +29,115 @@
         },
         "Experiment details page": {
           "Overview section": {
-            "{experimentName}": "heading",
-            "Created on {dateCreated} by {username} | Updated on {dateUpdated} by {username}": "label",
-            "Experiment Status <dropdown>": {
-              "Draft": "option, selected by default",
-              "Inactive": "option",
-              "Preview": "option",
-              "Scheduled": "option",
-              "Enrolling": "option",
-              "Enrollment Complete": "option",
-              "Archived": "option"
+            "{experimentName} ({experimentStatus})": "heading, experiment status changes",
+            "<available experiment statuses>": {
+              "Draft": "default, turns Inactive when decision point and condition are defined",
+              "Inactive": "inactve, can start experiment",
+              "Enrolling": "running",
+              "Enrollment Complete": "stopped"
             },
-            "Settings <button>": {
+            "Created at: {dateCreated} | Updated at: {dateUpdated}. [View logs]": "label, clicking View logs opens View Logs modal",
+            "Schedule": "button, opens Schedule Experiment modal",
+            "Start": "button, enabled when Inactive, label turns Stop when Enrolling, hidden when Enrollment Complete",
+            "More <button, opens menu>": {
               "Edit": "menu item, opens Edit Experiment modal",
+              "Clone": "menu item, opens Clone Experiment modal",
               "Export": "menu item, opens Export Experiment modal",
-              "Duplicate": "menu item, opens Duplicate Experiment modal",
               "Delete": "menu item, opens Delete Experiment modal"
             },
             "Description: {description}": "label",
-            "App Context: {appContext}": "label",
+            "App Context: {appContext} ({compatibility})": "label, compatibility can be Incompatible, Semi-compatible, or Compatible, opens App Compatibility modal when clicked",
             "Experiment Type: {experimentType}": "label",
             "Unit of Assignment: {unitOfAssignment}": "label",
             "Tags: {tags}": "label"
           },
-          "Decision Points section": {
-            "Decision Points": "heading",
-            "Define place(s) in the client app where the condition will be assigned. The same condition will be applied to all decision points": "label",
-            "Add Decision Point": "button, opens Add Decision Point modal",
-            "Settings <button>": {
-              "Import": "menu item, opens Import Decision Points modal",
-              "Export": "menu item, opens Export Decision Points modal",
-              "Delete All": "menu item, opens Delete All Decision Points modal"
+          "<tabs, sections displayed on tab selection>": {
+            "Design <default>": {
+              "Decision Points section": {
+                "Decision Points": "heading",
+                "Define place(s) in the client app where the condition will be assigned. The same condition will be applied to all decision points": "label",
+                "Add Decision Point": "button, opens Add Decision Point modal",
+                "Settings <button>": {
+                  "Import": "menu item, opens Import Decision Points modal",
+                  "Export": "menu item, opens Export Decision Points modal",
+                  "Delete All": "menu item, opens Delete All Decision Points modal"
+                },
+                "Decision points table": {
+                  "Site | Target | Display Name | Actions": "headers",
+                  "{site} | {target} | {displayName} | edit/delete buttons": "data, edit button opens Edit Decision Point modal, delete button opens Delete Decision Point modal",
+                  "No decision points available. Experiments require at least one decision point": "message, shown if empty"
+                }
+              },
+              "Conditions section": {
+                "Conditions": "heading",
+                "Specify the conditions to be assigned to the decision points in the experiment": "label",
+                "Add Condition": "button, opens Add Condition modal",
+                "Settings <button>": {
+                  "Import": "menu item, opens Import Conditions modal",
+                  "Export": "menu item, opens Export Conditions modal",
+                  "Delete All": "menu item, opens Delete All Conditions modal"
+                },
+                "Conditions table": {
+                  "Name | Payload | Weight (%) | Actions": "headers, clicking Weight (%) opens Edit Condition Weights modal when more than one condition exists",
+                  "{name} | {payload} | {weight} | edit/delete buttons": "data, edit button opens Edit Condition modal, delete button opens Delete Condition modal",
+                  "No conditions available. Simple experiments require conditions": "message, shown if empty"
+                }
+              },
+              "Participant Rules section": {
+                "Participant Rules": "heading",
+                "Define rules to include or exclude participants in the experiment": "label",
+                "Add Participant Rule": "button, opens Add Participant Rule modal",
+                "Settings <button>": {
+                  "Import": "menu item, opens Import Participant Rules modal",
+                  "Export": "menu item, opens Export Participant Rules modal",
+                  "Delete All": "menu item, opens Delete All Participant Rules modal"
+                },
+                "Participant Rules table": {
+                  "Rule Type | Participants Name | Conditions | Actions": "headers",
+                  "{ruleType} | {participantsName} | {N conditions} | edit/delete buttons": "data, edit button opens Edit Participant Rule modal, delete button opens Delete Participant Rule modal",
+                  "No participant rules defined. No one will be enrolled in the experiment": "message, shown if empty"
+                }
+              },
+              "Metrics section": {
+                "Metrics": "heading",
+                "Define the metrics you want to monitor for this experiment": "label",
+                "Add Metric": "button, opens Add Metric modal",
+                "Settings <button>": {
+                  "Import": "menu item, opens Import Metrics modal",
+                  "Export": "menu item, opens Export Metrics modal",
+                  "Delete All": "menu item, opens Delete All Metrics modal"
+                },
+                "Metrics table": {
+                  "Metric Type | Metric ID | Statistic | Display Name | Actions": "headers",
+                  "{metricType} | {metricId} | {statistic} | {displayName} | edit/delete buttons": "data, edit button opens Edit Metric modal, delete button opens Delete Metric modal",
+                  "No metrics available. No metrics will be monitored in the experiment": "message, shown if empty"
+                }
+              }
             },
-            "Decision points table": {
-              "Site | Target | Display Name | Actions": "headers",
-              "{site} | {target} | {displayName} | edit/delete buttons": "data, edit button opens Edit Decision Point modal, delete button opens Delete Decision Point modal",
-              "No decision points available. Experiments require at least one decision point": "message, shown if empty"
-            }
-          },
-          "Conditions section": {
-            "Conditions": "heading",
-            "Specify the conditions to be assigned to the decision points in the experiment": "label",
-            "Add Condition": "button, opens Add Condition modal",
-            "Settings <button>": {
-              "Import": "menu item, opens Import Conditions modal",
-              "Export": "menu item, opens Export Conditions modal",
-              "Delete All": "menu item, opens Delete All Conditions modal"
-            },
-            "Conditions table": {
-              "Name | Payload | Weight (%) | Actions": "headers, clicking Weight (%) opens Edit Condition Weights modal when more than one condition exists",
-              "{name} | {payload} | {weight} | edit/delete buttons": "data, edit button opens Edit Condition modal, delete button opens Delete Condition modal",
-              "No conditions available. Simple experiments require conditions": "message, shown if empty"
-            }
-          },
-          "Participant Rules section": {
-            "Participant Rules": "heading",
-            "Define rules to include or exclude participants in the experiment": "label",
-            "Add Participant Rule": "button, opens Add Participant Rule modal",
-            "Settings <button>": {
-              "Import": "menu item, opens Import Participant Rules modal",
-              "Export": "menu item, opens Export Participant Rules modal",
-              "Delete All": "menu item, opens Delete All Participant Rules modal"
-            },
-            "Participant Rules table": {
-              "Rule Type | Participants Name | Conditions | Actions": "headers",
-              "{ruleType} | {participantsName} | {N conditions} | edit/delete buttons": "data, edit button opens Edit Participant Rule modal, delete button opens Delete Participant Rule modal",
-              "No participant rules defined. No one will be enrolled in the experiment": "message, shown if empty"
-            }
-          },
-          "Metrics section": {
-            "Metrics": "heading",
-            "Define the metrics you want to monitor for this experiment": "label",
-            "Add Metric": "button, opens Add Metric modal",
-            "Settings <button>": {
-              "Import": "menu item, opens Import Metrics modal",
-              "Export": "menu item, opens Export Metrics modal",
-              "Delete All": "menu item, opens Delete All Metrics modal"
-            },
-            "Metrics table": {
-              "Metric Type | Metric ID | Statistic | Display Name | Actions": "headers",
-              "{metricType} | {metricId} | {statistic} | {displayName} | edit/delete buttons": "data, edit button opens Edit Metric modal, delete button opens Delete Metric modal",
-              "No metrics available. No metrics will be monitored in the experiment": "message, shown if empty"
+            "Results": {
+              "Enrollments section": {
+                "Enrollments": "heading",
+                "Enrollments reflect participants who have started the experiment": "label",
+                "Settings <button>": {
+                  "Export": "menu item, opens Export Enrollments modal"
+                },
+                "Enrollments Data <work in progress>": {}
+              },
+              "Metrics Data section": {
+                "Metrics Data": "heading",
+                "Metrics reflect participants who have provided data on the relevant metric": "label",
+                "Settings <button>": {
+                  "Export": "menu item, opens Export Enrollments modal"
+                },
+                "Metrics Data <work in progress>": {}
+              }
             }
           }
         },
         "Segments page": {},
         "Logs page": {},
         "Profile page": {}
-      },
-      "Modals": "overlaying the page, detailed separately"
+      }
     }
   },
   "Modals": {
@@ -144,7 +164,7 @@
         "Individual": "radio button, selected by default",
         "Condition will be assigned individually": "label",
         "Group": "radio button",
-        "Condition will be assigned by group (e.g. school, class, teacher)": "label"
+        "Condition will be assigned by group (e.g., school, class, teacher)": "label"
       },
       "<shown on Group selection>": {
         "Group Type": "dropdown, options: retrieved from context metadata",
@@ -160,14 +180,52 @@
       "Cancel": "button, closes modal",
       "Create": "button, creates experiment, closes modal, to Experiment details page"
     },
+    "Schedule Experiment modal": {
+      "Schedule Experiment": "heading",
+      "[Toggle Switch] Start Automatically": "toggle, disabled by default",
+      "<shown on Start Automatically enabled>": {
+        "Start Date & Time": "date/time picker, required",
+        "* After scheduling the start date & time, decision points and conditions cannot be edited": "label"
+      },
+      "[Toggle Switch] End Automatically": "toggle, disabled by default",
+      "<shown on End Automatically enabled>": {
+        "<options>": {
+          "End by Date and Time": "radio button, selected by default",
+          "End the experiment at a specific date and time": "label",
+          "End by the Number of Participants Enrolled": "radio button",
+          "End the experiment when the target number of participants is reached": "label"
+        },
+        "<shown on End by Date and Time selection>": {
+          "End Date & Time": "date/time picker, required"
+        },
+        "<shown on End by the Number of Participants Enrolled selection>": {
+          "Number of Participants": "number input field, required"
+        },
+        "Post Experiment Assignment <dropdown, required>": {
+          "Continue": "option",
+          "Assign": "nested, options: Default (No Condition), defined conditions"
+        },
+        "Determine the condition assignment for participants after the experiment ends": "label"
+      },
+      "Cancel": "button, closes modal",
+      "Save": "button, saves changes, closes modal"
+    },
+    "App Compatibility modal": {
+      "App Compatibility ({appContext})": "heading",
+      "compatibility table": {
+        "App Version | Released Date | Updated Date | Last Enrolled Date": "headers",
+        "{appVersion} | {releasedDate} | {updatedDate} | {lastEnrolledDate} [Show]": "data, appVersion color can be green (compatible) or red (incompatible), clicking Show displays incompatibility details"
+      },
+      "Close": "button, closes modal"
+    },
     "Add Decision Point modal": {
       "Add Decision Point": "heading",
       "Site": "combo box, required, options: retrieved from context metadata",
       "Description <for Site>": "input field, optional",
-      "The site indicates a place in the code (e.g. a function name) where the condition will be assigned": "label",
+      "The site indicates a place in the code (e.g., a function name) where the condition will be assigned": "label",
       "Target": "combo box, required, options: retrieved from context metadata",
       "Description <for Target>": "input field, optional",
-      "The target indicates the app component (e.g. a problem ID) that will undergo the experiment": "label",
+      "The target indicates the app component (e.g., a problem ID) that will undergo the experiment": "label",
       "Display Name": "input field, required",
       "Description <for Display Name>": "input field, optional",
       "The display name is used to refer to this decision point in the experiment UI": "label",
@@ -266,7 +324,7 @@
             "[Criteria] | [Operator] | [Value] | confirm/cancel buttons <data, on edit mode, confirm button saves and changes row to view mode, cancal button cancels adding or editing row>": {
               "Criteria <dropdown, required>": {
                 "User ID": "option",
-                "Group": "nested, options: retrieved from context metadata (e.g. Class ID, District ID, School ID, Teacher ID)",
+                "Group": "nested, options: retrieved from context metadata (e.g., Class ID, District ID, School ID, Teacher ID)",
                 "Segment": "option",
                 "Reached Decision Point": "option, available on Exclude Specific Participants selection"
               },
@@ -287,15 +345,15 @@
     "Add Metric modal": {
       "Add Metric": "heading",
       "Metric Type <group label>": {
-        "Simple Metric": "radio button, selected by default",
-        "Used for globally accumulated measures (e.g. total time spent using the app)": "label",
+        "Global Metric": "radio button, selected by default",
+        "Used for globally accumulated measures (e.g., total time spent using the app)": "label",
         "Repeatable Metric": "radio button",
-        "Used for repeatable measures in a specific component of the app (e.g. time spent for Activity 1)": "label"
+        "Used for repeatable measures in a specific component of the app (e.g., time spent for Activity 1)": "label"
       },
       "<shown on Repeatable Metric selection>": {
         "Metric Class": "combo box, required, options: retrieved from metrics metadata",
         "Metric Key": "combo box, required, options: retrieved from metrics metadata",
-        "The metric class (e.g. workspace) and key (e.g. workspace 3) indicate where the measurement takes place in the app": "label"
+        "The metric class (e.g., workspace) and key (e.g., workspace 3) indicate where the measurement takes place in the app": "label"
       },
       "Metric ID": "combo box, required, options: retrieved from metrics metadata",
       "Statistic <dropdown, required, options depend on selected Metric ID's data type retrieved from metrics metadata": {
@@ -314,7 +372,7 @@
           "Percentage": "option"
         }
       },
-      "The metric ID (e.g. timeSpent) identifies what data to measure, and the statistic controls how values are combined": "label",
+      "The metric ID (e.g., timeSpent) identifies what data to measure, and the statistic controls how values are combined": "label",
       "<shown if selected Metric ID's data type is categorical>": {
         "Comparison <dropdown, required>": {
           "Equal": "option",
