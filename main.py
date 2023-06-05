@@ -39,6 +39,7 @@ def get_conversation_history(channel_id, thread_ts):
         inclusive=True
     )
 
+
 def make_openai_request(messages, channel_id, reply_message_ts):
     openai_response = openai.ChatCompletion.create(
         model="gpt-4",
