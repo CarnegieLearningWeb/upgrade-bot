@@ -34,7 +34,7 @@ UI Design (Angle brackets represent non-UI element descriptions; curly braces de
 '''
 
 WAIT_MESSAGE = "Got your request. Please wait."
-N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 20
+N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 10
 MAX_TOKENS = 8192
 
 
