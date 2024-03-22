@@ -1,0 +1,60 @@
+{
+  "type": "card",
+  "styles": "CardStyle",
+  "class": "card",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "container",
+          "class": "filter-container",
+          "elements": [
+            {
+              "type": "select",
+              "options": ["All", "Name", "Status", "App Context", "Tag"],
+              "default": "All",
+              "notes": "Determines the target filter to search from the table"
+            },
+            {
+              "type": "input",
+              "placeholder": "Search",
+              "notes": "In the right side of the field, 'Search' icon is displayed. Searches the input text from the table based on the target filter. Only the searched rows will be visible in the table"
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "class": "button-container",
+          "elements": [
+            {
+              "type": "flat primary button",
+              "text": "Add Segment",
+              "notes": "Opens AddSegmentModal on click"
+            },
+            {
+              "type": "basic icon button",
+              "text": "more_vert",
+              "notes": "Opens a menu with options 'Import Segment', 'Export All Segments' on click. Opens the selected option's modal on click"
+            },
+            {
+              "type": "basic icon button",
+              "text": "expand_less",
+              "notes": "Collapses the content section on click, the icon changes to 'expand_more' that expands the content section on click"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "table-content",
+      "elements": [
+        {
+          "type": "SegmentsRootTable"
+        }
+      ]
+    }
+  ]
+}

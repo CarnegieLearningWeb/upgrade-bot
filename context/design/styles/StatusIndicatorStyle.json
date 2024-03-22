@@ -1,0 +1,8 @@
+{
+  "type": "status indicator",
+  "notes": "{status} indicates the status text (e.g., Enabled). This can be represented using chips, provided they can be styled appropriately",
+  "style": {
+    "status-indicator": "height: 24px, padding: 2px 8px, background-color: var(--status-{status.toLowerCase()}-alpha), border: 1px solid var(--status-{status.toLowerCase()}), border-radius: 4px",
+    "status-label": "font-size: 12px, font-weight: 600, color: var(--status-{status.toLowerCase()})"
+  }
+}

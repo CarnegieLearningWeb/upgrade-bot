@@ -1,0 +1,44 @@
+{
+  "type": "form",
+  "styles": "FormStyle",
+  "class": "form-standard",
+  "elements": [
+    {
+      "type": "input",
+      "label": "Name",
+      "placeholder": "e.g., My feature flag",
+      "required": true,
+      "hint": "The name for this feature flag."
+    },
+    {
+      "type": "input",
+      "label": "Key",
+      "placeholder": "Key for this feature flag",
+      "required": true,
+      "hint": "A unique key used to retrieve this feature flag from the client application. Learn more",
+      "notes": "Autocompleted in all caps and underscores as the 'Name' field gets typed. 'Learn more' links to https://www.upgradeplatform.org/"
+    },
+    {
+      "type": "input",
+      "label": "Description (optional)",
+      "placeholder": "Describe your feature flag",
+      "required": false
+    },
+    {
+      "type": "select",
+      "label": "App Context",
+      "placeholder": "App Context for this feature flag",
+      "required": true,
+      "options": [],
+      "hint": "The App Context indicates where the experiment will run, known to UpGrade. Learn more",
+      "notes": "The options are dynamically populated with the values from appContexts: string[]. 'Learn more' links to https://www.upgradeplatform.org/"
+    },
+    {
+      "type": "input",
+      "label": "Tags (optional)",
+      "placeholder": "Tags separated by commas",
+      "required": false,
+      "notes": "This looks like text input, allows entering comma-separated tags that are converted to chips"
+    }
+  ]
+}

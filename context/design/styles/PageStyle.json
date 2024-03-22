@@ -1,0 +1,14 @@
+{
+  "type": "page",
+  "style": {
+    "page": "width: 100%, height: 100%, background-color: var(--water)",
+    "main": "margin-left: 240px, width: calc(100% - 240px), display: flex, flex-direction: column, padding: 0 32px",
+    "root-header": "height: 112px, display: flex, flex-direction: column, justify-content: center, row-gap: 4px",
+    "heading": "font-size: 26px, font-weight: 700, color: var(--light-black)",
+    "subheading": "font-size: 16px, font-weight: 400, color: var(--grey)",
+    "details-header": "height: 64px, display: flex, flex-direction: column, justify-content: center",
+    "breadcrumb": "font-size: 14px, font-weight: 400, color: var(--light-black)",
+    "content": "row-gap: 32px, overflow: scroll"
+  },
+  "notes": "Modifying margin and width for 'main' class might not be needed depending on Sidenav implementation"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "file uploader",
+  "style": {
+    "file-uploader": "width: 100%, min-height: 200px, border: 1px dashed var(--dark-grey), display: flex, flex-direction: column, justify-content: center, align-items: center, row-gap: 8px, padding: 40px 0",
+    "upload-icon": "font-size: 48px, color: var(--dark-grey)",
+    "instruction": "font-size: 12px, font-weight: 600, color: var(--dark-grey)",
+    "close-button": "position: absolute, top: 4px, right: 4px, width: 40px, height: 40px, font-size: 14px, color: var(--dark-grey)"
+  }
+}

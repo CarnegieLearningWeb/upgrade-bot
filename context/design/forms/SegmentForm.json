@@ -1,0 +1,36 @@
+{
+  "type": "form",
+  "styles": "FormStyle",
+  "class": "form-standard",
+  "elements": [
+    {
+      "type": "input",
+      "label": "Name",
+      "placeholder": "e.g., My segment",
+      "required": true,
+      "hint": "The name for this segment."
+    },
+    {
+      "type": "input",
+      "label": "Description (optional)",
+      "placeholder": "Describe your segment",
+      "required": false
+    },
+    {
+      "type": "select",
+      "label": "App Context",
+      "placeholder": "App Context for this segment",
+      "required": true,
+      "options": [],
+      "hint": "The App Context indicates where the experiment will run, known to UpGrade. Learn more",
+      "notes": "The options are dynamically populated with the values from appContexts: string[]. 'Learn more' links to https://www.upgradeplatform.org/"
+    },
+    {
+      "type": "input",
+      "label": "Tags (optional)",
+      "placeholder": "Tags separated by commas",
+      "required": false,
+      "notes": "This looks like text input, allows entering comma-separated tags that are converted to chips"
+    }
+  ]
+}

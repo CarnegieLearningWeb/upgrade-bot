@@ -1,0 +1,19 @@
+{
+  "type": "modal",
+  "style": {
+    "modal-small": "width: 480px, display: flex, flex-direction: column",
+    "modal-medium": "width: 560px, display: flex, flex-direction: column",
+    "modal-standard": "width: 656px, display: flex, flex-direction: column",
+    "modal-large": "width: 864px, display: flex, flex-direction: column",
+    "header": "height: 80px, display: flex, justify-content: space-between, align-items: center, padding: 0 32px, border-bottom: 1px solid var(--light-grey)",
+    "heading": "font-size: 22px, font-weight: 700, color: var(--light-black)",
+    "close-button": "width: 40px, height: 40px, font-size: 14px, color: var(--dark-grey)",
+    "form-content-standard": "padding: 32px",
+    "form-content-padded": "padding: 40px 32px",
+    "message": "font-size: 16px, font-weight: 400, color: var(--dark-grey)",
+    "subtext-grey": "font-size: 14px, font-weight: 400, color: var(--dark-grey)",
+    "subtext-blue": "font-size: 14px, font-weight: 400, color: var(--blue)",
+    "subtext-red": "font-size: 14px, font-weight: 400, color: var(--red)",
+    "footer": "height: 80px, display: flex, justify-content: flex-end, align-items: center, column-gap: 8px, padding: 0 32px, border-top: 1px solid var(--light-grey)"
+  }
+}

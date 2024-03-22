@@ -1,5 +1,5 @@
 import os
-import openai
+from openai import OpenAI
 from threading import Event
 from dotenv import load_dotenv
 from slack_bolt import App
@@ -12,21 +12,19 @@ SLACK_APP_TOKEN = os.environ["SLACK_APP_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 from utils import (N_CHUNKS_TO_CONCAT_BEFORE_UPDATING, OPENAI_API_KEY,
-                   MAX_TOKENS, SLACK_APP_TOKEN, SLACK_BOT_TOKEN, WAIT_MESSAGE,
+                   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, WAIT_MESSAGE, 
+                   GPT_MODEL, GPT_TEMPERATURE,
                    num_tokens_from_messages, process_conversation_history,
                    update_chat)
 
 app = App(token=SLACK_BOT_TOKEN)
-openai.api_key = OPENAI_API_KEY
 
-# Debug mode
-DEBUG = False
+# OpenAI client
+openai_client = OpenAI(
+    api_key=OPENAI_API_KEY,
+)
 
-def debug_print(*args, **kwargs):
-    if DEBUG:
-        print(*args, **kwargs)
-
-MAX_TOKEN_MESSAGE = f"Apologies, but the maximum number of tokens ({format(MAX_TOKENS, ',')}) for this thread has been reached. Please start a new thread to continue discussing this topic."
+MAX_TOKEN_MESSAGE = "Apologies, but the maximum number of tokens for this thread has been reached. Please start a new thread to continue discussing this topic."
 
 # A dictionary to store an event for each channel
 events = {}
@@ -40,16 +38,17 @@ def get_conversation_history(channel_id, thread_ts):
     )
 
 
-def make_openai_request(messages, channel_id, reply_message_ts):
-    openai_response = openai.ChatCompletion.create(
-        model="gpt-4",
+def stream_openai_request(messages, channel_id, reply_message_ts):
+    openai_response = openai_client.chat.completions.create(
+        model=GPT_MODEL,
+        temperature=GPT_TEMPERATURE,
         messages=messages,
         stream=True
     )
     response_text = ""
     ii = 0
     for chunk in openai_response:
-        if chunk.choices[0].delta.get("content"):
+        if chunk.choices[0].delta.content is not None:
             ii = ii + 1
             response_text += chunk.choices[0].delta.content
             if ii > N_CHUNKS_TO_CONCAT_BEFORE_UPDATING:
@@ -89,7 +88,7 @@ def command_handler(body, context):
         messages = process_conversation_history(conversation_history, bot_user_id)
         num_tokens = num_tokens_from_messages(messages)
         print(f"Number of tokens: {num_tokens}")
-        make_openai_request(messages, channel_id, reply_message_ts)
+        stream_openai_request(messages, channel_id, reply_message_ts)
     except Exception as e:
         print(f"Error: {e}")
         try:

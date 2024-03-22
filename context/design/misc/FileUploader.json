@@ -1,0 +1,29 @@
+{
+  "type": "file uploader",
+  "styles": "FileUploaderStyle",
+  "class": "file-uploader",
+  "notes": "File(s) can be dragged and dropped into the whole section. After the file upload, it either returns to Value field (when altered), or transitions to ImportFileTable (when used in Import modal)",
+  "elements": [
+    {
+      "type": "basic icon",
+      "class": "upload-icon",
+      "text": "file_upload"      
+    },
+    {
+      "type": "instruction",
+      "class": "instruction",
+      "text": "Drag and drop or"
+    },
+    {
+      "type": "flat primary button",
+      "text": "Choose {fileType (e.g., CSV or JSON)}",
+      "notes": "Opens the file selection dialog on click"
+    },
+    {
+      "type": "basic icon button",
+      "class": "close-button",
+      "text": "close",
+      "notes": "Displayed only when FileUploader alters Values field. Returns to Values field on click"
+    }
+  ]
+}

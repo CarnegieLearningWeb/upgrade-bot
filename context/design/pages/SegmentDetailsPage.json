@@ -1,0 +1,48 @@
+{
+  "type": "page",
+  "styles": "PageStyle",
+  "class": "page",
+  "elements": [
+    {
+      "type": "Sidenav",
+      "notes": "Fixed to the left side of the page. The 'Segments' list item is selected"
+    },
+    {
+      "type": "main",
+      "class": "main",
+      "notes": "Takes up the rest of the page",
+      "elements": [
+        {
+          "type": "header",
+          "class": "details-header",
+          "elements": [
+            {
+              "type": "breadcrumb",
+              "class": "breadcrumb",
+              "text": "Segments  >  {segmentName}",
+              "notes": "'Segments' part in the text is hyperlink that links to the SegmentsRootPage"
+            }
+          ]
+        },
+        {
+          "type": "content",
+          "class": "content",
+          "elements": [
+            {
+              "type": "SegmentOverviewCard",
+              "notes": "The footer contains 'Lists' and 'Used By' tabs"
+            },
+            {
+              "type": "SegmentListsCard",
+              "notes": "Displayed when 'Lists' tab is selected"
+            },
+            {
+              "type": "SegmentUsedByCard",
+              "notes": "Displayed when 'Used By' tab is selected"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

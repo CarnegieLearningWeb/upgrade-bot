@@ -1,0 +1,52 @@
+{
+  "type": "page",
+  "styles": "PageStyle",
+  "class": "page",
+  "elements": [
+    {
+      "type": "Sidenav",
+      "notes": "Fixed to the left side of the page. The 'Feature Flags' list item is selected"
+    },
+    {
+      "type": "main",
+      "class": "main",
+      "notes": "Takes up the rest of the page",
+      "elements": [
+        {
+          "type": "header",
+          "class": "details-header",
+          "elements": [
+            {
+              "type": "breadcrumb",
+              "class": "breadcrumb",
+              "text": "Feature Flags  >  {featureFlagName}",
+              "notes": "'Feature Flags' part in the text is hyperlink that links to the FeatureFlagsRootPage"
+            }
+          ]
+        },
+        {
+          "type": "content",
+          "class": "content",
+          "elements": [
+            {
+              "type": "FeatureFlagOverviewCard",
+              "notes": "The footer contains 'Participants' and 'Data' tabs"
+            },
+            {
+              "type": "FeatureFlagIncludeListsCard",
+              "notes": "Displayed when 'Participants' tab is selected"
+            },
+            {
+              "type": "FeatureFlagExcludeListsCard",
+              "notes": "Displayed when 'Participants' tab is selected"
+            },
+            {
+              "type": "FeatureFlagExposuresCard",
+              "notes": "Displayed when 'Data' tab is selected"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

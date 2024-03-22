@@ -1,0 +1,65 @@
+{
+  "type": "card",
+  "styles": "CardStyle",
+  "class": "card",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "container",
+          "class": "title-container",
+          "elements": [
+            {
+              "type": "container",
+              "class": "heading-container",
+              "elements": [
+                {
+                  "type": "h3",
+                  "class": "heading",
+                  "text": "Exclude Lists ({numRows})"
+                }
+              ]
+            },
+            {
+              "type": "instruction",
+              "class": "instruction",
+              "text": "Define exclude lists for this feature flag."
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "class": "button-container",
+          "elements": [
+            {
+              "type": "flat primary button",
+              "text": "Add Exclude List",
+              "notes": "Opens AddFeatureFlagExcludeListModal on click"
+            },
+            {
+              "type": "basic icon button",
+              "text": "more_vert",
+              "notes": "Opens a menu with options 'Import List', 'Export All Lists', 'Save as a Segment' on click. Opens the selected option's modal on click"
+            },
+            {
+              "type": "basic icon button",
+              "text": "expand_less",
+              "notes": "Collapses the content section on click, the icon changes to 'expand_more' that expands the content section on click"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "table-content",
+      "elements": [
+        {
+          "type": "FeatureFlagExcludeListsTable"
+        }
+      ]
+    }
+  ]
+}

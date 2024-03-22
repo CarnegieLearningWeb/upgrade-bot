@@ -1,0 +1,62 @@
+{
+  "type": "sidenav",
+  "styles": "SidenavStyle",
+  "class": "sidenav",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "h1",
+          "class": "heading",
+          "text": "UpGrade"
+        },
+        {
+          "type": "subheading",
+          "class": "subheading",
+          "text": "Version: v6.1.0"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "content",
+      "notes": "list-item classes should update to {className}-selected when selected",
+      "elements": [
+        {
+          "type": "list item",
+          "class": "list-item",
+          "elements": [
+            {
+              "type": "basic icon",
+              "class": "icon",
+              "text": "toggle_on"
+            },
+            {
+              "type": "text",
+              "class": "text",
+              "text": "Feature Flags"
+            }
+          ]
+        },
+        {
+          "type": "list item",
+          "class": "list-item",
+          "elements": [
+            {
+              "type": "basic icon",
+              "class": "icon",
+              "text": "group"
+            },
+            {
+              "type": "text",
+              "class": "text",
+              "text": "Segments"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

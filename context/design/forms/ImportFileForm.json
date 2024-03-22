@@ -1,0 +1,11 @@
+{
+  "type": "form",
+  "styles": "FormStyle",
+  "class": "form-standard",
+  "elements": [
+    {
+      "type": "FileUploader",
+      "notes": "Expects one or more JSON files. Transitions to ImportFileTable after the file upload"
+    }
+  ]
+}

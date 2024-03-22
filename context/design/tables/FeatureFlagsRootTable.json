@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Name", "Status", "Updated at", "App Context", "Tags", "Exposures"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["hyperlink text", "StatusIndicator (Disabled, Enabled, or Archived)", "string (e.g., Feb 5, 2024, 10:05 AM)", "string", "chips", "{Number of exposures} Students (e.g., 47 Students)"],
+      "notes": "The row is dynamically filled with values from AddFeatureFlagModal. When the table is empty, the class should update to 'empty-row', and a message 'No feature flags defined. Create a new feature flag.' in the center of the row will be displayed. Clicking the name links to FeatureFlagDetailsPage"
+    }
+  ]
+}

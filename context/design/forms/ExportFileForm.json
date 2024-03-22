@@ -1,0 +1,26 @@
+{
+  "type": "form",
+  "styles": "FormStyle",
+  "class": "form-compact",
+  "elements": [
+    {
+      "type": "group label",
+      "class": "group-label",
+      "text": "Export Type"
+    },
+    {
+      "type": "radio group",
+      "notes": "Option texts differ depending on modal type",
+      "elements": [
+        {
+          "type": "radio button",
+          "text": "{exportOption1}"
+        },
+        {
+          "type": "radio button",
+          "text": "{exportOption2}"
+        }
+      ]
+    }
+  ]
+}

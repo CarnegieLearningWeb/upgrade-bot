@@ -7,59 +7,126 @@ SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-def get_json_context(filename):
-    try:
-        with open(filename, "r") as file:
-            data = json.load(file)
-
-        minified_json_string = json.dumps(data, separators=(",", ":"))
-        return minified_json_string
-
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Error: {e}")
-        return ""
-
-design_context = get_json_context("design.json")
-
-SYSTEM_PROMPT = f'''
-You are an AI assistant.
-Only answer questions related to UpGrade, based on the provided context.
-If you are certain that the question is not relevant to UpGrade, say "As an UpGradeBot, I can only answer questions about UpGrade."
-If you cannot find the exact information from the context, say "Sorry, I don't have that information."
-
-Context:
-UpGrade, backed by the Gates Foundation and Schmidt Futures, is a free, open-source A/B testing platform by Carnegie Learning and PlayPower Labs for educational software in schools. Built with Angular, it enables quick data-driven decisions, addressing educational software concerns like group random assignment and reduced teacher burden. The platform unites teachers, researchers, and edtech companies for improving learning outcomes and has been used in studies with MATHia and Battleship Numberline. Visit upgradeplatform.org, access docs at upgrade-platform.gitbook.io/docs/, and find the repository at github.com/CarnegieLearningWeb/UpGrade
-UI Design (Angle brackets represent non-UI element descriptions; curly braces denote formatted variables/placeholders; square brackets indicate input UI elements; labels starting with an asterisk are emphasized):
-{design_context}
-'''
-
+# GPT_MODEL = "gpt-4-1106-vision-preview"
+GPT_MODEL = "gpt-4-0125-preview"
+GPT_TEMPERATURE = 0.1
 WAIT_MESSAGE = "Got your request. Please wait..."
 N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 10
-MAX_TOKENS = 8192
 
+BASE_DIRECTORY_PATH = "context"
+# PROCESSED_DIRECTORIES = {"design", "images", "reference", "upgrade"}
+PROCESSED_DIRECTORIES = {"design", "reference"}
+PROCESSED_CODE_EXTENSIONS = {"json", "html", "css", "scss", "ts"}
+PROCESSED_IMAGE_EXTENSIONS = {"png", "webp", "gif"}
+
+
+def minify_json_content(filepath, content):
+    try:
+        json_object = json.loads(content)
+        return json.dumps(json_object, separators=(",", ":"))
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Error decoding {filepath}: {e}") from e
+
+
+def process_file(filepath):
+    try:
+        with open(filepath, "r", encoding="utf-8") as file:
+            content = file.read().strip()
+            if filepath.endswith(".json"):
+                content = minify_json_content(filepath, content)
+        return content
+    except UnicodeDecodeError as e:
+        raise ValueError(f"Error reading {filepath}: {e}") from e
+
+
+def process_directory(folder_path):
+    directory_content = {}
+    for entry in os.listdir(folder_path):
+        full_path = os.path.join(folder_path, entry)
+        if os.path.isdir(full_path):
+            directory_content[entry] = process_directory(full_path)
+        elif os.path.isfile(full_path) and os.path.splitext(entry)[1][1:].lower() in PROCESSED_CODE_EXTENSIONS:
+            directory_content[entry] = process_file(full_path)
+        else:
+            print(f"Ignoring file: {full_path}")
+    return directory_content
+
+
+def build_context(base_path):
+    context = {}
+
+    # Check if base_path exists and is a directory
+    if not os.path.isdir(base_path):
+        raise FileNotFoundError(f"The base path {base_path} does not exist or is not a directory")
+    
+    # Check for required folders and process accordingly
+    for folder in PROCESSED_DIRECTORIES:
+        folder_path = os.path.join(base_path, folder)
+        if not os.path.isdir(folder_path):
+            raise FileNotFoundError(f"Required folder {folder} is missing in the base path {base_path}")
+        if folder == "images":
+            context[folder] = [file for file in os.listdir(folder_path) if os.path.splitext(file)[1][1:].lower() in PROCESSED_IMAGE_EXTENSIONS]
+        else:
+            context[folder] = process_directory(folder_path)
+    
+    return context
+
+
+context = build_context(BASE_DIRECTORY_PATH)
+
+
+SYSTEM_PROMPT = f"""
+You are a software engineer with expertise in the Angular framework. Your mission is to offer design and development support for UpGrade, a software dedicated to A/B testing and feature flagging within the education sector.
+
+Adhere strictly to facts and provide truthful responses based on the given context. Ensure all code suggestions or examples align with best practices as outlined in the official Angular documentation, specifically focusing on the use of Material Design Components (MDC).
+
+In situations where the query falls outside your area of knowledge, either state that you do not have the necessary information or request further clarification to provide the most accurate support possible.
+
+Context includes:
+- "design": detailed JSON structure outlining the design requirements and specifications for UpGrade.
+- "reference": documentation and examples related to Angular MDC, serving as a guideline for implementing Material Design in an Angular project.
+
+Please utilize this context to inform your responses and ensure they are relevant and helpful to the task at hand.
+
+Context:
+{context}
+"""
+
+print("\n")
+print(SYSTEM_PROMPT)
+print("\n")
 
 # From https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
-def num_tokens_from_messages(messages, model="gpt-4"):
-    """Returns the number of tokens used by a list of messages."""
+def num_tokens_from_messages(messages, model=GPT_MODEL):
+    """Return the number of tokens used by a list of messages."""
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
         print("Warning: model not found. Using cl100k_base encoding.")
         encoding = tiktoken.get_encoding("cl100k_base")
-    if model == "gpt-3.5-turbo":
-        print("Warning: gpt-3.5-turbo may change over time. Returning num tokens assuming gpt-3.5-turbo-0301.")
-        return num_tokens_from_messages(messages, model="gpt-3.5-turbo-0301")
-    elif model == "gpt-4":
-        print("Warning: gpt-4 may change over time. Returning num tokens assuming gpt-4-0314.")
-        return num_tokens_from_messages(messages, model="gpt-4-0314")
+    if model in {
+        "gpt-3.5-turbo-0613",
+        "gpt-3.5-turbo-16k-0613",
+        "gpt-4-0314",
+        "gpt-4-32k-0314",
+        "gpt-4-0613",
+        "gpt-4-32k-0613",
+        }:
+        tokens_per_message = 3
+        tokens_per_name = 1
     elif model == "gpt-3.5-turbo-0301":
         tokens_per_message = 4  # every message follows <|start|>{role/name}\n{content}<|end|>\n
         tokens_per_name = -1  # if there's a name, the role is omitted
-    elif model == "gpt-4-0314":
-        tokens_per_message = 3
-        tokens_per_name = 1
+    elif "gpt-3.5-turbo" in model:
+        print("Warning: gpt-3.5-turbo may update over time. Returning num tokens assuming gpt-3.5-turbo-0613.")
+        return num_tokens_from_messages(messages, model="gpt-3.5-turbo-0613")
+    elif "gpt-4" in model:
+        print("Warning: gpt-4 may update over time. Returning num tokens assuming gpt-4-0613.")
+        return num_tokens_from_messages(messages, model="gpt-4-0613")
     else:
-        raise NotImplementedError(f"""num_tokens_from_messages() is not implemented for model {model}. See https://github.com/openai/openai-python/blob/main/chatml.md for information on how messages are converted to tokens.""")
+        raise NotImplementedError(
+            f"""num_tokens_from_messages() is not implemented for model {model}. See https://github.com/openai/openai-python/blob/main/chatml.md for information on how messages are converted to tokens."""
+        )
     num_tokens = 0
     for message in messages:
         num_tokens += tokens_per_message
@@ -70,6 +137,10 @@ def num_tokens_from_messages(messages, model="gpt-4"):
     num_tokens += 3  # every reply is primed with <|start|>assistant<|message|>
     return num_tokens
 
+
+num_system_prompt_tokens = num_tokens_from_messages([{"role": "system", "content": SYSTEM_PROMPT}])
+
+print(f"The number of tokens used for system prompt: {num_system_prompt_tokens}\n")
 
 def process_conversation_history(conversation_history, bot_user_id):
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]

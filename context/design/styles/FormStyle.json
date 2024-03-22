@@ -1,0 +1,9 @@
+{
+  "type": "form",
+  "style": {
+    "form-standard": "width: 100%, display: flex, flex-direction: column, row-gap: 16px",
+    "form-compact": "width: 100%, display: flex, flex-direction: column, row-gap: 8px",
+    "message": "font-size: 16px, font-weight: 400, color: var(--dark-grey)",
+    "group-label": "font-size: 14px, font-weight: 400, color: var(--dark-grey)"
+  }
+}

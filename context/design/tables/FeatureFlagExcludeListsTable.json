@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Name", "Type", "Values", "Actions"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["string", "string", "{Number of Values} Values (e.g., 5 Values)", "edit and delete icons"],
+      "notes": "The row is dynamically filled with values from AddFeatureFlagExcludeListModal. When the table is empty, the class should update to 'empty-row', and a message 'No exclude lists defined. No participants will be excluded from the included lists.' in the center of the row will be displayed. Clicking the edit icon opens EditFeatureFlagExcludeListModal, Clicking the delete icon opens DeleteFeatureFlagExcludeListModal"
+    }
+  ]
+}

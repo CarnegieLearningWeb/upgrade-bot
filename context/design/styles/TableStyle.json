@@ -1,0 +1,9 @@
+{
+  "type": "table",
+  "style": {
+    "table": "width: 100%",
+    "header-row": "width: 100%, height: 48px, padding: 0 32px, background-color: var(--zircon)",
+    "body-row": "width: 100%, height: 56px, padding: 0 32px, background-color: var(--white), border-bottom: 1px solid var(--light-grey)",
+    "empty-row": "width: 100%, height: 56px, border: 1px dashed var(--light-grey)"
+  }
+}
