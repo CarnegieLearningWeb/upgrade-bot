@@ -1,0 +1,61 @@
+{
+  "type": "card",
+  "styles": "CardStyle",
+  "class": "card",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "container",
+          "class": "title-container",
+          "elements": [
+            {
+              "type": "container",
+              "class": "heading-container",
+              "elements": [
+                {
+                  "type": "h3",
+                  "class": "heading",
+                  "text": "Exposures"
+                }
+              ]
+            },
+            {
+              "type": "instruction",
+              "class": "instruction",
+              "text": "View total exposures for the feature flag during the specific period."
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "class": "button-container",
+          "elements": [
+            {
+              "type": "basic icon button",
+              "text": "expand_less",
+              "notes": "Collapses the content section on click, the icon changes to 'expand_more' that expands the content section on click"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "table-content",
+      "elements": [
+        {
+          "type": "select",
+          "label": "Time",
+          "options": ["Last 7 days", "Last 3 Months", "Last 6 Months", "Last 12 Months"],
+          "default": "Last 7 days"
+        },
+        {
+          "type": "FeatureFlagExposuresTable"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Date/Time", "Author", "Message"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["string (e.g., Feb 5, 2024, 10:05 AM)", "string", "string"],
+      "notes": "All changes made to the instance will be shown in the table. Most recent log should be displayed at the top"
+    }
+  ]
+}

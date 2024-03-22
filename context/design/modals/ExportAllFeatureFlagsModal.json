@@ -1,0 +1,49 @@
+{
+  "type": "modal",
+  "styles": "ModalStyle",
+  "class": "modal-medium",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "h2",
+          "class": "heading",
+          "text": "Export All Feature Flags"
+        },
+        {
+          "type": "basic icon button",
+          "class": "close-button",
+          "text": "close"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "form-content-padded",
+      "elements": [
+        {
+          "type": "ExportFileForm",
+          "notes": "exportOption1: 'Download Feature Flag Design (JSON)', exportOption2: 'Email Feature Flag Data (CSV)'"
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "class": "footer",
+      "elements": [
+        {
+          "type": "flat basic button",
+          "text": "Cancel",
+          "notes": "Closes modal on click"
+        },
+        {
+          "type": "flat primary button",
+          "text": "Export",
+          "notes": "Enabled when an option is selected. Closes modal on click"
+        }
+      ]
+    }
+  ]
+}

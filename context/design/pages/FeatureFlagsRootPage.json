@@ -1,0 +1,44 @@
+{
+  "type": "page",
+  "styles": "PageStyle",
+  "class": "page",
+  "notes": "This is the starting page of the app",
+  "elements": [
+    {
+      "type": "Sidenav",
+      "notes": "Fixed to the left side of the page. The 'Feature Flags' list item is selected"
+    },
+    {
+      "type": "main",
+      "class": "main",
+      "notes": "Takes up the rest of the page",
+      "elements": [
+        {
+          "type": "header",
+          "class": "root-header",
+          "elements": [
+            {
+              "type": "h1",
+              "class": "heading",
+              "text": "Feature Flags"
+            },
+            {
+              "type": "subheading",
+              "class": "subheading",
+              "text": "Create and manage feature flags"
+            }
+          ]
+        },
+        {
+          "type": "content",
+          "class": "content",
+          "elements": [
+            {
+              "type": "FeatureFlagsRootCard"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

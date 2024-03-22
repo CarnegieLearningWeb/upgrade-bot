@@ -1,0 +1,49 @@
+{
+  "type": "modal",
+  "styles": "ModalStyle",
+  "class": "modal-standard",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "h2",
+          "class": "heading",
+          "text": "Edit Include List"
+        },
+        {
+          "type": "basic icon button",
+          "class": "close-button",
+          "text": "close"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "form-content-standard",
+      "elements": [
+        {
+          "type": "FeatureFlagIncludeListForm",
+          "notes": "Form should be filled with current values"
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "class": "footer",
+      "elements": [
+        {
+          "type": "flat basic button",
+          "text": "Cancel",
+          "notes": "Closes modal on click"
+        },
+        {
+          "type": "flat primary button",
+          "text": "Save",
+          "notes": "Enabled when the form is valid and dirty. Closes modal on click. Edits a row in FeatureFlagIncludeListsTable"
+        }
+      ]
+    }
+  ]
+}

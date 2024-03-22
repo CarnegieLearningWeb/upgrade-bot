@@ -1,0 +1,65 @@
+{
+  "type": "card",
+  "styles": "CardStyle",
+  "class": "card",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "container",
+          "class": "title-container",
+          "elements": [
+            {
+              "type": "container",
+              "class": "heading-container",
+              "elements": [
+                {
+                  "type": "h3",
+                  "class": "heading",
+                  "text": "Include Lists ({numRows})"
+                }
+              ]
+            },
+            {
+              "type": "instruction",
+              "class": "instruction",
+              "text": "Define include lists for this feature flag."
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "class": "button-container",
+          "elements": [
+            {
+              "type": "flat primary button",
+              "text": "Add Include List",
+              "notes": "Opens AddFeatureFlagIncludeListModal on click. The button is disabled when a row with 'All' type exists"
+            },
+            {
+              "type": "basic icon button",
+              "text": "more_vert",
+              "notes": "Opens a menu with options 'Import List', 'Export All Lists', 'Save as a Segment' on click. Opens the selected option's modal on click. The 'Import List' option is disabled when a row with 'All' type exists"
+            },
+            {
+              "type": "basic icon button",
+              "text": "expand_less",
+              "notes": "Collapses the content section on click, the icon changes to 'expand_more' that expands the content section on click"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "table-content",
+      "elements": [
+        {
+          "type": "FeatureFlagIncludeListsTable"
+        }
+      ]
+    }
+  ]
+}

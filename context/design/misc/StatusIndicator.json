@@ -1,0 +1,13 @@
+{
+  "type": "status indicator",
+  "styles": "StatusIndicatorStyle",
+  "class": "status-indicator",
+  "notes": "{status} indicates the status text (e.g., Enabled)",
+  "elements": [
+    {
+      "type": "status label",
+      "class": "status-label",
+      "text": "{status}"
+    }
+  ]
+}

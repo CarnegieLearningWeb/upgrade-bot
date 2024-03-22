@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Name", "Type", "Status", "Updated at"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["hyperlink text", "'Feature Flag'", "StatusIndicator (Disabled, Enabled, or Archived)", "string (e.g., Feb 5, 2024, 10:05 AM)"],
+      "notes": "When the table is empty, the class should update to 'empty-row', and a message 'This segment is currently not being used by any experiments or feature flags.' in the center of the row will be displayed"
+    }
+  ]
+}

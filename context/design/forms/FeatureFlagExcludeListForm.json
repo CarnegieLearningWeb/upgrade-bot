@@ -1,0 +1,34 @@
+{
+  "type": "form",
+  "styles": "FormStyle",
+  "class": "form-standard",
+  "elements": [
+    {
+      "type": "input",
+      "label": "Name",
+      "placeholder": "e.g., My schools",
+      "required": true,
+      "hint": "The name for this exclude list."
+    },
+    {
+      "type": "input",
+      "label": "Description (optional)",
+      "placeholder": "Describe your exclude list",
+      "required": false
+    },
+    {
+      "type": "select",
+      "label": "Type",
+      "required": true,
+      "options": ["Individual", "Segment"],
+      "notes": "The options are dynamically populated with the values from listTypes: string[]"
+    },
+    {
+      "type": "input",
+      "label": "Values",
+      "placeholder": "Values separated by commas",
+      "required": true,
+      "notes": "This looks like text input, allows entering comma-separated values that are converted to chips. When 'Segment' Type is selected, the field works like a combo box allowing selecting a segment from options found from segments: string[]. In the right side of the field, 'Upload' icon button is displayed if the field is empty, otherwise, 'Download' icon button is displayed. When 'Upload' is clicked, the field changes to FileUploader, and changes back to Values field after CSV upload. When 'Download' is clicked, it downloads a CSV file of one column of values with no headers"
+    }
+  ]
+}

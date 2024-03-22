@@ -1,0 +1,23 @@
+{
+  "type": "form",
+  "styles": "FormStyle",
+  "class": "form-standard",
+  "elements": [
+    {
+      "type": "message",
+      "class": "message",
+      "text": "Are you sure you want to delete \"{targetName}\"?"
+    },
+    {
+      "type": "message",
+      "class": "message",
+      "text": "Type \"delete\" to confirm deletion:"
+    },
+    {
+      "type": "input",
+      "placeholder": "Type delete",
+      "required": true,
+      "notes": "Requires typing 'delete' in the field to be valid"
+    }
+  ]
+}

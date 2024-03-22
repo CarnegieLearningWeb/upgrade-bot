@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Name", "Type", "Values", "Actions"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["string", "string", "{Number of Values} Values (e.g., 5 Values)", "edit and delete icons"],
+      "notes": "The row is dynamically filled with values from AddSegmentListModal. When the table is empty, the class should update to 'empty-row', and a message 'No lists defined for this segment. Add a new list.' in the center of the row will be displayed. Clicking the edit icon opens EditSegmentListModal, Clicking the delete icon opens DeleteSegmentListModal"
+    }
+  ]
+}

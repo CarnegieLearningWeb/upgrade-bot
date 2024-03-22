@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Name", "Status", "Updated at", "App Context", "Tags", "Lists"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["hyperlink text", "StatusIndicator (Global, Unused, or Used)", "string (e.g., Feb 5, 2024, 10:05 AM)", "string", "chips", "{Number of lists} Lists (e.g., 2 Lists)"],
+      "notes": "The row is dynamically filled with values from AddSegmentModal. There should always be a default row named 'Global Exclude' with the status 'Global' and the app context 'ALL'. Clicking the name links to SegmentDetailsPage"
+    }
+  ]
+}

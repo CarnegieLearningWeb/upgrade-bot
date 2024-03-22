@@ -1,0 +1,114 @@
+{
+  "type": "card",
+  "styles": "CardStyle",
+  "class": "card",
+  "elements": [
+    {
+      "type": "header",
+      "class": "header",
+      "elements": [
+        {
+          "type": "container",
+          "class": "title-container",
+          "elements": [
+            {
+              "type": "container",
+              "class": "heading-container",
+              "elements": [
+                {
+                  "type": "h3",
+                  "class": "heading",
+                  "text": "{featureFlagName}"
+                },
+                {
+                  "type": "StatusIndicator",
+                  "supported_statuses": ["Disabled", "Enabled"],
+                  "default": "Disabled"
+                }
+              ]
+            },
+            {
+              "type": "info",
+              "class": "info",
+              "text": "Created on: {date (e.g., Feb 5, 2024)} | Updated at: {date/time (e.g., Feb 5, 2024, 10:05 AM)}. View logs",
+              "notes": "When the feature flag is created, the label will be 'Created at: {date/time}.' and after any updates it will be shown in full format including the View Logs. 'View Logs' part in the text is hyperlink that opens ViewLogsModal"
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "class": "button-container",
+          "elements": [
+            {
+              "type": "slide toggle",
+              "text": "Enable",
+              "notes": "Opens EnableFeatureFlagModal or DisableFeatureFlagModal on click"
+            },
+            {
+              "type": "basic icon button",
+              "text": "more_vert",
+              "notes": "Opens a menu with options 'Edit Feature Flag', 'Export Feature Flag', 'Duplicate Feature Flag', 'Archive Feature Flag', 'Delete Feature Flag' on click. Opens the selected option's modal on click. The 'Delete Feature Flag' option is disabled when the status is 'Enabled'"
+            },
+            {
+              "type": "basic icon button",
+              "text": "expand_less",
+              "notes": "Collapses the content section of all other cards in FeatureFlagDetailsPage on click, the icon changes to 'expand_more' that expands the content section of all other cards in FeatureFlagDetailsPage on click"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "class": "list-content",
+      "elements": [
+        {
+          "type": "list",
+          "elements": [
+            {
+              "type": "list item",
+              "class": "list-item",
+              "text": "Key: {key}"
+            },
+            {
+              "type": "list item",
+              "class": "list-item",
+              "text": "Description: {description}"
+            },
+            {
+              "type": "list item",
+              "class": "list-item",
+              "text": "App Context: {appContext}"
+            },
+            {
+              "type": "list item",
+              "class": "list-item",
+              "tags": "{tagChips}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "footer",
+      "class": "footer",
+      "elements": [
+        {
+          "type": "tab group",
+          "default": "Participants",
+          "notes": "When 'Participants' tab is selected, FeatureFlagIncludeListsCard and FeatureFlagExcludeListsCard are displayed below this card. When 'Data' tab is selected, FeatureFlagExposuresCard is displayed below this card",
+          "elements": [
+            {
+              "type": "tab",
+              "text": "Participants"
+            },
+            {
+              "type": "tab",
+              "text": "Data"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

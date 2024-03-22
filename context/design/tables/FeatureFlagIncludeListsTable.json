@@ -1,0 +1,18 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": ["Name", "Type", "Values", "Enable", "Actions"]
+    },
+    {
+      "type": "body rows",
+      "class": "body-row",
+      "cell types": ["string", "string", "{Number of Values} Values (e.g., 5 Values)", "slide toggle", "edit and delete icons"],
+      "notes": "The row is dynamically filled with values from AddFeatureFlagIncludeListModal. When the table is empty, the class should update to 'empty-row', and a message 'No include lists defined. The feature flag will not be applied to any participants.' in the center of the row will be displayed. The slide toggle will be disabled (view only) if the Feature Flag status is 'Disabled', enabled (editable) otherwise. Clicking the edit icon opens EditFeatureFlagIncludeListModal, Clicking the delete icon opens DeleteFeatureFlagIncludeListModal"
+    }
+  ]
+}

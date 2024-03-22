@@ -1,0 +1,19 @@
+{
+  "type": "table",
+  "styles": "TableStyle",
+  "class": "table",
+  "elements": [
+    {
+      "type": "header row",
+      "class": "header-row",
+      "headings": [],
+      "notes": "headings are changed dynamically depending on Time selection. If 'Last 7 Days' is selected, the headings will be 7 dates (e.g., 03/13, 03/14..) including today. Otherwise, the headings will be N months (e.g., Jan, Feb..) including this month. The last heading 'Total' should be appended"
+    },
+    {
+      "type": "body row",
+      "class": "body-row",
+      "cell types": "Number of exposures on each date or month, and the total number",
+      "notes": "The total number should be the sum of all numbers in the previous cells"
+    }
+  ]
+}

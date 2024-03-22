@@ -1,0 +1,43 @@
+{
+  "type": "page",
+  "styles": "PageStyle",
+  "class": "page",
+  "elements": [
+    {
+      "type": "Sidenav",
+      "notes": "Fixed to the left side of the page. The 'Segments' list item is selected"
+    },
+    {
+      "type": "main",
+      "class": "main",
+      "notes": "Takes up the rest of the page",
+      "elements": [
+        {
+          "type": "header",
+          "class": "root-header",
+          "elements": [
+            {
+              "type": "h1",
+              "class": "heading",
+              "text": "Segments"
+            },
+            {
+              "type": "subheading",
+              "class": "subheading",
+              "text": "Define new segments to include or exclude from any experiment or feature flag"
+            }
+          ]
+        },
+        {
+          "type": "content",
+          "class": "content",
+          "elements": [
+            {
+              "type": "SegmentsRootCard"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
