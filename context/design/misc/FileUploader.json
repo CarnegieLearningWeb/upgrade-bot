@@ -10,7 +10,7 @@
       "text": "file_upload"      
     },
     {
-      "type": "instruction",
+      "type": "p",
       "class": "instruction",
       "text": "Drag and drop or"
     },

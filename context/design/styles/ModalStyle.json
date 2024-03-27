@@ -14,6 +14,6 @@
     "subtext-grey": "font-size: 14px, font-weight: 400, color: var(--dark-grey)",
     "subtext-blue": "font-size: 14px, font-weight: 400, color: var(--blue)",
     "subtext-red": "font-size: 14px, font-weight: 400, color: var(--red)",
-    "footer": "height: 80px, display: flex, justify-content: flex-end, align-items: center, column-gap: 8px, padding: 0 32px, border-top: 1px solid var(--light-grey)"
+    "actions": "height: 80px, display: flex, justify-content: flex-end, align-items: center, column-gap: 8px, padding: 0 32px, border-top: 1px solid var(--light-grey)"
   }
 }

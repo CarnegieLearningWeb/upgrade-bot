@@ -1,10 +1,10 @@
 {
-  "type": "card",
+  "type": "mat-card",
   "styles": "CardStyle",
   "class": "card",
   "elements": [
     {
-      "type": "header",
+      "type": "mat-card-header",
       "class": "header",
       "elements": [
         {
@@ -16,7 +16,7 @@
               "class": "heading-container",
               "elements": [
                 {
-                  "type": "h3",
+                  "type": "mat-card-title",
                   "class": "heading",
                   "text": "{featureFlagName}"
                 },
@@ -28,7 +28,7 @@
               ]
             },
             {
-              "type": "info",
+              "type": "p",
               "class": "info",
               "text": "Created on: {date (e.g., Feb 5, 2024)} | Updated at: {date/time (e.g., Feb 5, 2024, 10:05 AM)}. View logs",
               "notes": "When the feature flag is created, the label will be 'Created at: {date/time}.' and after any updates it will be shown in full format including the View Logs. 'View Logs' part in the text is hyperlink that opens ViewLogsModal"
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "type": "content",
+      "type": "mat-card-content",
       "class": "list-content",
       "elements": [
         {
@@ -90,7 +90,7 @@
       ]
     },
     {
-      "type": "footer",
+      "type": "mat-card-footer",
       "class": "footer",
       "elements": [
         {

@@ -1,10 +1,10 @@
 {
-  "type": "card",
+  "type": "mat-card",
   "styles": "CardStyle",
   "class": "card",
   "elements": [
     {
-      "type": "header",
+      "type": "mat-card-header",
       "class": "header",
       "elements": [
         {
@@ -48,7 +48,7 @@
       ]
     },
     {
-      "type": "content",
+      "type": "mat-card-content",
       "class": "table-content",
       "elements": [
         {
