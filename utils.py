@@ -9,7 +9,6 @@ SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 TARGET_LLM = os.getenv("TARGET_LLM", "gpt").lower()
-PROMPT_TYPE = os.getenv("PROMPT_TYPE", "design").lower()
 
 # Check if any required environment variable is missing or invalid
 missing_vars = [var_name for var_name, var_value in [
@@ -46,16 +45,7 @@ TARGET_MODEL = GPT_MODEL if TARGET_LLM == "gpt" else CLAUDE_MODEL
 
 # Context processing variables
 BASE_DIRECTORY_PATH = "context"
-
-if PROMPT_TYPE == "full":
-    PROCESSED_DIRECTORIES = ["design", "reference"]
-elif PROMPT_TYPE == "design":
-    PROCESSED_DIRECTORIES = ["design"]
-elif PROMPT_TYPE == "reference":
-    PROCESSED_DIRECTORIES = ["reference"]
-else:
-    PROCESSED_DIRECTORIES = []
-
+PROCESSED_DIRECTORIES = ["design", "reference"]
 PROCESSED_CODE_EXTENSIONS = {"json", "html", "css", "scss", "ts", "txt"}
 PROCESSED_IMAGE_EXTENSIONS = {"png", "webp", "gif"}
 
@@ -116,8 +106,7 @@ def build_context(base_path):
 context = build_context(BASE_DIRECTORY_PATH)
 
 
-# Full system prompt when both 'design' and 'reference' contexts are present
-full_system_prompt = f"""
+SYSTEM_PROMPT = f"""
 You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
 When offering code suggestions or examples, ensure they align with the best practices and code patterns demonstrated in the provided 'reference' context.
 If the 'design' context provides specific requirements or specifications, aim to integrate them seamlessly with the Angular MDC best practices.
@@ -130,52 +119,6 @@ Context includes:
 Please utilize this context:
 {context}
 """
-
-# Design system prompt when if only the 'design' context is present
-design_system_prompt = f"""
-You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
-If the 'design' context provides specific requirements or specifications, aim to integrate them seamlessly with the Angular MDC best practices.
-Your responses should be focused, relevant, and grounded in the provided context. Avoid making assumptions or providing information not directly supported by the given 'design' materials.
-
-Context includes:
-- 'design': detailed JSON structure outlining the design requirements and specifications for UpGrade.
-
-Please utilize this context:
-{context}
-"""
-
-# Reference system prompt when if only the 'reference' context is present
-reference_system_prompt = f"""
-You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
-When offering code suggestions or examples, ensure they align with the best practices and code patterns demonstrated in the provided 'reference' context.
-Your responses should be focused, relevant, and grounded in the Angular MDC documentation and examples provided in the 'reference' folder. Avoid making assumptions or providing information not directly supported by the given 'reference' materials.
-
-Context includes:
-- 'reference': documentation and examples related to Angular MDC, serving as a guideline for implementing Material Design in an Angular project.
-
-Please utilize this context:
-{context}
-"""
-
-# Fallback system prompt when both 'design' and 'reference' contexts are missing
-fallback_system_prompt = f"""
-You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
-When offering suggestions or examples, aim to align them with the Angular MDC best practices and common design patterns.
-Your responses should be focused, relevant, and grounded in Angular and Material Design principles. Avoid making assumptions or providing information not directly supported by the Angular documentation and best practices.
-
-Please keep this in mind as you provide assistance.
-"""
-
-
-if PROMPT_TYPE == "full":
-    SYSTEM_PROMPT = full_system_prompt
-elif PROMPT_TYPE == "design":
-    SYSTEM_PROMPT = design_system_prompt
-elif PROMPT_TYPE == "reference":
-    SYSTEM_PROMPT = reference_system_prompt
-else:
-    SYSTEM_PROMPT = fallback_system_prompt
-
 
 print("\n")
 print(SYSTEM_PROMPT)
@@ -236,7 +179,6 @@ def num_tokens_from_messages(messages, model=TARGET_MODEL):
 num_system_prompt_tokens = num_tokens_from_messages([{"role": "system", "content": SYSTEM_PROMPT}])
 
 print(f"Target model: {TARGET_MODEL}")
-print(f"Prompt type: {PROMPT_TYPE}")
 print(f"The number of tokens used for system prompt: {num_system_prompt_tokens}\n")
 
 
