@@ -36,12 +36,18 @@ GPT_TEMPERATURE = 0.1
 anthropic_client = Anthropic(
     api_key=ANTHROPIC_API_KEY,
 )
-CLAUDE_MODEL = "claude-3-opus-20240229"
+CLAUDE_MODEL = "claude-3-haiku-20240307"
 CLAUDE_TEMPERATURE = 0.1
-CLAUDE_MAX_TOKENS = 1024
+CLAUDE_MAX_TOKENS = 2048
 
 # Target model
 TARGET_MODEL = GPT_MODEL if TARGET_LLM == "gpt" else CLAUDE_MODEL
+
+# Message settings
+N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 10
+WAIT_MESSAGE = "Got your request. Please wait..."
+ERROR_MESSAGE = "Oops! Something went wrong while generating the response."
+MAX_TOKEN_MESSAGE = "Apologies, but the maximum number of tokens for this thread has been reached. Please start a new thread to continue discussing this topic."
 
 # Context processing variables
 BASE_DIRECTORY_PATH = "context"
@@ -187,7 +193,7 @@ def process_conversation_history(conversation_history, bot_user_id):
     for message in conversation_history["messages"][:-1]:
         role = "assistant" if message["user"] == bot_user_id else "user"
         message_text = process_message(message, bot_user_id)
-        if message_text:
+        if message_text and not message_text.startswith(ERROR_MESSAGE):
             messages.append({"role": role, "content": message_text})
     return messages
 

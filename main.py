@@ -14,14 +14,10 @@ ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 
 from utils import (SLACK_APP_TOKEN, SLACK_BOT_TOKEN, openai_client, anthropic_client,
                    GPT_MODEL, GPT_TEMPERATURE, CLAUDE_MODEL, CLAUDE_TEMPERATURE, CLAUDE_MAX_TOKENS, TARGET_MODEL,
+                   N_CHUNKS_TO_CONCAT_BEFORE_UPDATING, WAIT_MESSAGE, ERROR_MESSAGE, MAX_TOKEN_MESSAGE,
                    num_tokens_from_messages, process_conversation_history, update_chat)
 
 app = App(token=SLACK_BOT_TOKEN)
-
-# Settings
-N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 10
-WAIT_MESSAGE = "Got your request. Please wait..."
-MAX_TOKEN_MESSAGE = "Apologies, but the maximum number of tokens for this thread has been reached. Please start a new thread to continue discussing this topic."
 
 # A dictionary to store an event for each channel
 events = {}
@@ -54,7 +50,7 @@ def stream_openai_request(messages, channel_id, reply_message_ts):
         elif chunk.choices[0].finish_reason == "stop":
             update_chat(app, channel_id, reply_message_ts, response_text)
         elif chunk.choices[0].finish_reason == "length":
-            update_chat(app, channel_id, reply_message_ts, response_text + "...\n\n" + MAX_TOKEN_MESSAGE)
+            update_chat(app, channel_id, reply_message_ts, response_text.rstrip() + "...\n\n" + MAX_TOKEN_MESSAGE)
 
 
 def stream_anthropic_request(messages, channel_id, reply_message_ts):
@@ -88,7 +84,6 @@ def stream_anthropic_request(messages, channel_id, reply_message_ts):
             ii = 0
 
     update_chat(app, channel_id, reply_message_ts, response_text)
-    print(f"Cost incurred: ${input_tokens * 0.000015 + output_tokens * 0.000075:.2f}")
 
 
 @app.event("app_mention")
@@ -129,7 +124,7 @@ def command_handler(body, context):
             app.client.chat_postMessage(
                 channel=channel_id,
                 thread_ts=thread_ts,
-                text=f"I can't provide a response. Encountered an error:\n`\n{e}\n`")
+                text=f"{ERROR_MESSAGE} Error details:\n```\n{e}\n```\nIf my response was cut off, just say 'Continue' and I'll resume from there.")
         except Exception as e:
             print(f"Error: {e}")
     finally:
