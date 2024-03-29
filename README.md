@@ -26,6 +26,7 @@ SLACK_APP_TOKEN=your_slack_app_token
 OPENAI_API_KEY=your_openai_api_key
 ANTHROPIC_API_KEY=your_anthropic_api_key
 TARGET_LLM=gpt_or_claude
+PROMPT_TYPE=full_or_design_or_reference
 ```
 See below how to get those.
 
