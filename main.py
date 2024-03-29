@@ -1,30 +1,23 @@
 import os
-from openai import OpenAI
 from threading import Event
 from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+
 
 load_dotenv()
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 SLACK_APP_TOKEN = os.environ["SLACK_APP_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 
-from utils import (N_CHUNKS_TO_CONCAT_BEFORE_UPDATING, OPENAI_API_KEY,
-                   SLACK_APP_TOKEN, SLACK_BOT_TOKEN, WAIT_MESSAGE, 
-                   GPT_MODEL, GPT_TEMPERATURE,
-                   num_tokens_from_messages, process_conversation_history,
-                   update_chat)
+from utils import (SLACK_APP_TOKEN, SLACK_BOT_TOKEN, openai_client, anthropic_client,
+                   GPT_MODEL, GPT_TEMPERATURE, CLAUDE_MODEL, CLAUDE_TEMPERATURE, CLAUDE_MAX_TOKENS, TARGET_MODEL,
+                   N_CHUNKS_TO_CONCAT_BEFORE_UPDATING, WAIT_MESSAGE, ERROR_MESSAGE, MAX_TOKEN_MESSAGE,
+                   num_tokens_from_messages, process_conversation_history, update_chat)
 
 app = App(token=SLACK_BOT_TOKEN)
-
-# OpenAI client
-openai_client = OpenAI(
-    api_key=OPENAI_API_KEY,
-)
-
-MAX_TOKEN_MESSAGE = "Apologies, but the maximum number of tokens for this thread has been reached. Please start a new thread to continue discussing this topic."
 
 # A dictionary to store an event for each channel
 events = {}
@@ -49,7 +42,7 @@ def stream_openai_request(messages, channel_id, reply_message_ts):
     ii = 0
     for chunk in openai_response:
         if chunk.choices[0].delta.content is not None:
-            ii = ii + 1
+            ii += 1
             response_text += chunk.choices[0].delta.content
             if ii > N_CHUNKS_TO_CONCAT_BEFORE_UPDATING:
                 update_chat(app, channel_id, reply_message_ts, response_text)
@@ -57,7 +50,40 @@ def stream_openai_request(messages, channel_id, reply_message_ts):
         elif chunk.choices[0].finish_reason == "stop":
             update_chat(app, channel_id, reply_message_ts, response_text)
         elif chunk.choices[0].finish_reason == "length":
-            update_chat(app, channel_id, reply_message_ts, response_text + "...\n\n" + MAX_TOKEN_MESSAGE)
+            update_chat(app, channel_id, reply_message_ts, response_text.rstrip() + "...\n\n" + MAX_TOKEN_MESSAGE)
+
+
+def stream_anthropic_request(messages, channel_id, reply_message_ts):
+    anthropic_response = anthropic_client.messages.create(
+        model=CLAUDE_MODEL,
+        temperature=CLAUDE_TEMPERATURE,
+        max_tokens=CLAUDE_MAX_TOKENS,
+        system=messages[0]["content"],
+        messages=messages[1:],
+        stream=True,
+    )
+    response_text = ""
+    input_tokens = None
+    output_tokens = None
+    ii = 0
+    for event in anthropic_response:
+        ii += 1
+        match event.type:
+            case "message_start":
+                input_tokens = event.message.usage.input_tokens
+            case "content_block_start":
+                response_text += event.content_block.text
+            case "content_block_delta":
+                response_text += event.delta.text
+            case "message_delta":
+                output_tokens = event.usage.output_tokens
+            case "content_block_stop" | "message_stop":
+                ...
+        if ii > N_CHUNKS_TO_CONCAT_BEFORE_UPDATING:
+            update_chat(app, channel_id, reply_message_ts, response_text)
+            ii = 0
+
+    update_chat(app, channel_id, reply_message_ts, response_text)
 
 
 @app.event("app_mention")
@@ -88,14 +114,17 @@ def command_handler(body, context):
         messages = process_conversation_history(conversation_history, bot_user_id)
         num_tokens = num_tokens_from_messages(messages)
         print(f"Number of tokens: {num_tokens}")
-        stream_openai_request(messages, channel_id, reply_message_ts)
+        if TARGET_MODEL == GPT_MODEL:
+            stream_openai_request(messages, channel_id, reply_message_ts)
+        else:
+            stream_anthropic_request(messages, channel_id, reply_message_ts)
     except Exception as e:
         print(f"Error: {e}")
         try:
             app.client.chat_postMessage(
                 channel=channel_id,
                 thread_ts=thread_ts,
-                text=f"I can't provide a response. Encountered an error:\n`\n{e}\n`")
+                text=f"{ERROR_MESSAGE} Error details:\n```\n{e}\n```\nIf my response was cut off, just say 'Continue' and I'll resume from there.")
         except Exception as e:
             print(f"Error: {e}")
     finally:

@@ -1,22 +1,66 @@
 import os
 import json
 import tiktoken
-
+from openai import OpenAI
+from anthropic import Anthropic
 
 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+TARGET_LLM = os.getenv("TARGET_LLM", "gpt").lower()
+PROMPT_TYPE = os.getenv("PROMPT_TYPE", "design").lower()
 
-# GPT_MODEL = "gpt-4-1106-vision-preview"
+# Check if any required environment variable is missing or invalid
+missing_vars = [var_name for var_name, var_value in [
+    ("SLACK_BOT_TOKEN", SLACK_BOT_TOKEN),
+    ("SLACK_APP_TOKEN", SLACK_APP_TOKEN),
+    ("OPENAI_API_KEY", OPENAI_API_KEY),
+    ("ANTHROPIC_API_KEY", ANTHROPIC_API_KEY),
+    ("TARGET_LLM", TARGET_LLM)
+] if var_value is None]
+
+if missing_vars:
+    raise ValueError(f"""Missing required environment variables: {", ".join(missing_vars)}""")
+
+if TARGET_LLM not in ["gpt", "claude"]:
+    raise ValueError(f"Invalid TARGET_LLM: {TARGET_LLM}")
+
+# OpenAI client
+openai_client = OpenAI(
+    api_key=OPENAI_API_KEY,
+)
 GPT_MODEL = "gpt-4-0125-preview"
 GPT_TEMPERATURE = 0.1
-WAIT_MESSAGE = "Got your request. Please wait..."
-N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 10
 
+# Anthropic client
+anthropic_client = Anthropic(
+    api_key=ANTHROPIC_API_KEY,
+)
+CLAUDE_MODEL = "claude-3-haiku-20240307"
+CLAUDE_TEMPERATURE = 0.1
+CLAUDE_MAX_TOKENS = 2048
+
+# Target model
+TARGET_MODEL = GPT_MODEL if TARGET_LLM == "gpt" else CLAUDE_MODEL
+
+# Message settings
+N_CHUNKS_TO_CONCAT_BEFORE_UPDATING = 10
+WAIT_MESSAGE = "Got your request. Please wait..."
+ERROR_MESSAGE = "Oops! Something went wrong while generating the response."
+MAX_TOKEN_MESSAGE = "Apologies, but the maximum number of tokens for this thread has been reached. Please start a new thread to continue discussing this topic."
+
+# Context processing variables
 BASE_DIRECTORY_PATH = "context"
-# PROCESSED_DIRECTORIES = {"design", "images", "reference", "upgrade"}
-PROCESSED_DIRECTORIES = {"design", "reference"}
-PROCESSED_CODE_EXTENSIONS = {"json", "html", "css", "scss", "ts"}
+if PROMPT_TYPE == "full":
+    PROCESSED_DIRECTORIES = ["design", "reference"]
+elif PROMPT_TYPE == "design":
+    PROCESSED_DIRECTORIES = ["design"]
+elif PROMPT_TYPE == "reference":
+    PROCESSED_DIRECTORIES = ["reference"]
+else:
+    PROCESSED_DIRECTORIES = []
+PROCESSED_CODE_EXTENSIONS = {"json", "html", "css", "scss", "ts", "txt"}
 PROCESSED_IMAGE_EXTENSIONS = {"png", "webp", "gif"}
 
 
@@ -41,7 +85,8 @@ def process_file(filepath):
 
 def process_directory(folder_path):
     directory_content = {}
-    for entry in os.listdir(folder_path):
+    sorted_entries = sorted(os.listdir(folder_path))
+    for entry in sorted_entries:
         full_path = os.path.join(folder_path, entry)
         if os.path.isdir(full_path):
             directory_content[entry] = process_directory(full_path)
@@ -75,30 +120,101 @@ def build_context(base_path):
 context = build_context(BASE_DIRECTORY_PATH)
 
 
-SYSTEM_PROMPT = f"""
-You are a software engineer with expertise in the Angular framework. Your mission is to offer design and development support for UpGrade, a software dedicated to A/B testing and feature flagging within the education sector.
-
-Adhere strictly to facts and provide truthful responses based on the given context. Ensure all code suggestions or examples align with best practices as outlined in the official Angular documentation, specifically focusing on the use of Material Design Components (MDC).
-
-In situations where the query falls outside your area of knowledge, either state that you do not have the necessary information or request further clarification to provide the most accurate support possible.
+# Full system prompt when both 'design' and 'reference' contexts are present
+full_system_prompt = f"""
+You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
+When offering code suggestions or examples, ensure they align with the best practices and code patterns demonstrated in the provided 'reference' context.
+If the 'design' context provides specific requirements or specifications, aim to integrate them seamlessly with the Angular MDC best practices.
+Your responses should be focused, relevant, and grounded in the provided context. Avoid making assumptions or providing information not directly supported by the given 'design' and 'reference' materials.
 
 Context includes:
-- "design": detailed JSON structure outlining the design requirements and specifications for UpGrade.
-- "reference": documentation and examples related to Angular MDC, serving as a guideline for implementing Material Design in an Angular project.
+- 'design': detailed JSON structure outlining the design requirements and specifications for UpGrade.
+- 'reference': documentation and examples related to Angular MDC, serving as a guideline for implementing Material Design in an Angular project.
 
-Please utilize this context to inform your responses and ensure they are relevant and helpful to the task at hand.
-
-Context:
+Please utilize this context:
 {context}
 """
+
+# Design system prompt when if only the 'design' context is present
+design_system_prompt = f"""
+You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
+If the 'design' context provides specific requirements or specifications, aim to integrate them seamlessly with the Angular MDC best practices.
+Your responses should be focused, relevant, and grounded in the provided context. Avoid making assumptions or providing information not directly supported by the given 'design' materials.
+
+Context includes:
+- 'design': detailed JSON structure outlining the design requirements and specifications for UpGrade.
+
+Please utilize this context:
+{context}
+"""
+
+# Reference system prompt when if only the 'reference' context is present
+reference_system_prompt = f"""
+You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
+When offering code suggestions or examples, ensure they align with the best practices and code patterns demonstrated in the provided 'reference' context.
+Your responses should be focused, relevant, and grounded in the Angular MDC documentation and examples provided in the 'reference' folder. Avoid making assumptions or providing information not directly supported by the given 'reference' materials.
+
+Context includes:
+- 'reference': documentation and examples related to Angular MDC, serving as a guideline for implementing Material Design in an Angular project.
+
+Please utilize this context:
+{context}
+"""
+
+# Fallback system prompt when both 'design' and 'reference' contexts are missing
+fallback_system_prompt = f"""
+You are a software engineer with expertise in the Angular framework. Your mission is to provide design and development support for UpGrade, an open source A/B testing and feature flagging platform for education software.
+When offering suggestions or examples, aim to align them with the Angular MDC best practices and common design patterns.
+Your responses should be focused, relevant, and grounded in Angular and Material Design principles. Avoid making assumptions or providing information not directly supported by the Angular documentation and best practices.
+
+Please keep this in mind as you provide assistance.
+"""
+
+# Create the "prompts" directory if it doesn't exist
+os.makedirs("prompts", exist_ok=True)
+
+# Define all the prompts in a dictionary
+prompts = {
+    "full_system_prompt.txt": full_system_prompt,
+    "design_system_prompt.txt": design_system_prompt,
+    "reference_system_prompt.txt": reference_system_prompt,
+    "fallback_system_prompt.txt": fallback_system_prompt,
+}
+
+# Iterate over the dictionary and write each prompt to its respective file
+for filename, content in prompts.items():
+    with open(os.path.join("prompts", filename), "w") as file:
+        file.write(content.strip())
+
+
+# Determine the system prompt to use
+if PROMPT_TYPE == "full":
+    SYSTEM_PROMPT = full_system_prompt
+elif PROMPT_TYPE == "design":
+    SYSTEM_PROMPT = design_system_prompt
+elif PROMPT_TYPE == "reference":
+    SYSTEM_PROMPT = reference_system_prompt
+else:
+    SYSTEM_PROMPT = fallback_system_prompt
 
 print("\n")
 print(SYSTEM_PROMPT)
 print("\n")
 
+
 # From https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
-def num_tokens_from_messages(messages, model=GPT_MODEL):
-    """Return the number of tokens used by a list of messages."""
+def num_tokens_from_messages(messages, model=TARGET_MODEL):
+    # Number of tokens used
+    num_tokens = 0
+
+    # Return the number of tokens used in Claude messages
+    if model == CLAUDE_MODEL:
+        for message in messages:
+            for key in ["role", "content"]:
+                if key in message:
+                    num_tokens += anthropic_client.count_tokens(message[key])
+            return num_tokens
+
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
@@ -127,7 +243,6 @@ def num_tokens_from_messages(messages, model=GPT_MODEL):
         raise NotImplementedError(
             f"""num_tokens_from_messages() is not implemented for model {model}. See https://github.com/openai/openai-python/blob/main/chatml.md for information on how messages are converted to tokens."""
         )
-    num_tokens = 0
     for message in messages:
         num_tokens += tokens_per_message
         for key, value in message.items():
@@ -140,14 +255,17 @@ def num_tokens_from_messages(messages, model=GPT_MODEL):
 
 num_system_prompt_tokens = num_tokens_from_messages([{"role": "system", "content": SYSTEM_PROMPT}])
 
+print(f"Target model: {TARGET_MODEL}")
+print(f"Prompt type: {PROMPT_TYPE}")
 print(f"The number of tokens used for system prompt: {num_system_prompt_tokens}\n")
+
 
 def process_conversation_history(conversation_history, bot_user_id):
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
     for message in conversation_history["messages"][:-1]:
         role = "assistant" if message["user"] == bot_user_id else "user"
         message_text = process_message(message, bot_user_id)
-        if message_text:
+        if message_text and not message_text.startswith(ERROR_MESSAGE):
             messages.append({"role": role, "content": message_text})
     return messages
 

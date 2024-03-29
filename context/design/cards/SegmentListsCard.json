@@ -1,10 +1,10 @@
 {
-  "type": "card",
+  "type": "mat-card",
   "styles": "CardStyle",
   "class": "card",
   "elements": [
     {
-      "type": "header",
+      "type": "mat-card-header",
       "class": "header",
       "elements": [
         {
@@ -16,14 +16,14 @@
               "class": "heading-container",
               "elements": [
                 {
-                  "type": "h3",
+                  "type": "mat-card-title",
                   "class": "heading",
                   "text": "Lists ({numRows})"
                 }
               ]
             },
             {
-              "type": "instruction",
+              "type": "p",
               "class": "instruction",
               "text": "Define lists for this segment."
             }
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "type": "content",
+      "type": "mat-card-content",
       "class": "table-content",
       "elements": [
         {

@@ -15,6 +15,7 @@
     },
     {
       "type": "input",
+      "appearance": "outline",
       "placeholder": "Type delete",
       "required": true,
       "notes": "Requires typing 'delete' in the field to be valid"

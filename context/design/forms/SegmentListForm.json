@@ -2,6 +2,7 @@
   "type": "form",
   "styles": "FormStyle",
   "class": "form-standard",
+  "notes": "All fields should use outline appearance",
   "elements": [
     {
       "type": "input",

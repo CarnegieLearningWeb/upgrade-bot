@@ -2,7 +2,7 @@
 A Slack chatbot designed to assist with questions and guidance about UpGrade, the open-source A/B testing platform for educational software.
 
 ## Features
-- Integrate with OpenAI's GPT-4 to answer questions
+- Integrate with OpenAI's GPT or Anthropic's Claude to answer questions
 - Maintain conversation context in a threaded format
 - Socket mode integration with Slack
 
@@ -24,6 +24,8 @@ pip install -r requirements.txt
 SLACK_BOT_TOKEN=your_slack_bot_token
 SLACK_APP_TOKEN=your_slack_app_token
 OPENAI_API_KEY=your_openai_api_key
+ANTHROPIC_API_KEY=your_anthropic_api_key
+TARGET_LLM=gpt_or_claude
 ```
 See below how to get those.
 

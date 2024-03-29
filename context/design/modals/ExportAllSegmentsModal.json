@@ -8,19 +8,20 @@
       "class": "header",
       "elements": [
         {
-          "type": "h2",
+          "type": "h2 mat-dialog-title",
           "class": "heading",
           "text": "Export All Segments"
         },
         {
           "type": "basic icon button",
           "class": "close-button",
-          "text": "close"
+          "text": "close",
+          "notes": "Closes modal on click"
         }
       ]
     },
     {
-      "type": "content",
+      "type": "mat-dialog-content",
       "class": "form-content-padded",
       "elements": [
         {
@@ -30,8 +31,8 @@
       ]
     },
     {
-      "type": "footer",
-      "class": "footer",
+      "type": "mat-dialog-actions",
+      "class": "actions",
       "elements": [
         {
           "type": "flat basic button",
